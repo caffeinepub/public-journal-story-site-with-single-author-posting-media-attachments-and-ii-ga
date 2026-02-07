@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
+  "architectural_notes": [
+    "Single-author system: only the site owner can create/manage posts; public users are readers only.",
+    "Access control model: posts have free vs locked visibility; locked content requires Internet Identity login to view."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimalist wordmark logo in warm charcoal and cream palette (logo.dim_512x512.png)\n- Subtle paper-grain background texture, light warm tone (paper-texture.dim_1600x900.png)",
+  "existing_features": [
+    {
+      "id": "feature-add-an-owner-only-authoring-admin-workflow-so-only-the-site-owner-can-create-and-manage-posts",
+      "title": "Add an owner-only authoring/admin workflow so only the site owner can create and manage posts.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-gate-locked-posts-behind-internet-identity-login-users-can-browse-free-content-publicly-but-must-sign-in-with-internet-identity-to-view-locked-post-content",
+      "title": "Gate locked posts behind Internet Identity login: users can browse free content publicly, but must sign in with Internet Identity to view locked post content.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-minimal-paywall-entitlement-mechanism-for-locked-posts-without-integrating-payments-after-internet-identity-login-only-principals-that-are-explicitly-allowed-can-view-locked-content-the-owner-can-grant-revoke-access",
+      "title": "Implement a minimal paywall entitlement mechanism for locked posts (without integrating payments): after Internet Identity login, only principals that are explicitly allowed can view locked content; the owner can grant/revoke access.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-support-media-attachments-on-posts-in-the-initial-version-allow-adding-images-and-videos-to-a-post-and-display-them-in-post-detail-views",
+      "title": "Support media attachments on posts in the initial version: allow adding images and videos to a post, and display them in post detail views.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-public-facing-pages-for-browsing-and-reading-posts-a-home-feed-page-a-post-detail-page-and-basic-navigation",
+      "title": "Create public-facing pages for browsing and reading posts: a home/feed page, a post detail page, and basic navigation.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-coherent-visual-theme-and-typography-system-for-the-journal-app-and-apply-it-consistently-across-pages",
+      "title": "Add a coherent visual theme and typography system for the journal app and apply it consistently across pages.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-basic-content-safety-quality-constraints-and-empty-loading-states-throughout-the-ui",
+      "title": "Add basic content safety/quality constraints and empty/loading states throughout the UI.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create daily public posts (single author) with text content and basic post listing/detail views",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Support media attachments on posts (photo and video upload/embedding) in the initial version",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Paywall individual posts: mark posts as free vs locked and restrict locked content",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Internet Identity authentication required only to view paywalled (locked) posts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Owner-only authoring/admin workflow so only the site owner can create and manage posts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement backend data model and APIs for a single-author journal with posts that can be marked as free or locked, including create/update/delete and public read access.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Public journal/story site with single-author posting, media attachments, and II-gated locked posts",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

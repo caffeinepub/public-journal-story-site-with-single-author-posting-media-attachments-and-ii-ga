@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.5rem;
+        
+        /* Warm charcoal and cream palette */
+        --background: 0.97 0.01 40;
+        --foreground: 0.25 0.015 30;
+        
+        --card: 0.99 0.005 40;
+        --card-foreground: 0.25 0.015 30;
+        
+        --popover: 0.99 0.005 40;
+        --popover-foreground: 0.25 0.015 30;
+        
+        --primary: 0.35 0.02 30;
+        --primary-foreground: 0.97 0.01 40;
+        
+        --secondary: 0.92 0.01 40;
+        --secondary-foreground: 0.35 0.02 30;
+        
+        --muted: 0.92 0.01 40;
+        --muted-foreground: 0.55 0.01 30;
+        
+        --accent: 0.88 0.015 35;
+        --accent-foreground: 0.25 0.015 30;
+        
+        --destructive: 0.55 0.20 25;
+        --destructive-foreground: 0.97 0.01 40;
+        
+        --border: 0.88 0.01 40;
+        --input: 0.88 0.01 40;
+        --ring: 0.35 0.02 30;
+        
+        --chart-1: 0.65 0.15 35;
+        --chart-2: 0.60 0.12 180;
+        --chart-3: 0.55 0.10 220;
+        --chart-4: 0.70 0.18 80;
+        --chart-5: 0.68 0.16 60;
+    }
+
+    .dark {
+        --background: 0.20 0.015 30;
+        --foreground: 0.95 0.01 40;
+        
+        --card: 0.25 0.015 30;
+        --card-foreground: 0.95 0.01 40;
+        
+        --popover: 0.22 0.015 30;
+        --popover-foreground: 0.95 0.01 40;
+        
+        --primary: 0.88 0.015 35;
+        --primary-foreground: 0.25 0.015 30;
+        
+        --secondary: 0.30 0.015 30;
+        --secondary-foreground: 0.95 0.01 40;
+        
+        --muted: 0.30 0.015 30;
+        --muted-foreground: 0.65 0.01 35;
+        
+        --accent: 0.35 0.02 30;
+        --accent-foreground: 0.95 0.01 40;
+        
+        --destructive: 0.60 0.18 25;
+        --destructive-foreground: 0.95 0.01 40;
+        
+        --border: 0.30 0.015 30;
+        --input: 0.30 0.015 30;
+        --ring: 0.65 0.01 35;
+        
+        --chart-1: 0.65 0.15 35;
+        --chart-2: 0.60 0.12 180;
+        --chart-3: 0.55 0.10 220;
+        --chart-4: 0.70 0.18 80;
+        --chart-5: 0.68 0.16 60;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Crimson Pro', 'Georgia', serif;
+    }
+}
+
+@layer utilities {
+    .bg-paper-texture {
+        background-image: url('/assets/generated/paper-texture.dim_1600x900.png');
+        background-repeat: repeat;
+        background-size: 800px 450px;
+    }
+    
+    .font-serif {
+        font-family: 'Crimson Pro', 'Georgia', serif;
+    }
+}

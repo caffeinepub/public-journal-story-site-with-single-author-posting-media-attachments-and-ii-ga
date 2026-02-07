@@ -1,0 +1,89 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T22:14:38.500Z",
+  "summary": "Diff adds a new Motoko backend actor and a React/TanStack Router frontend with Home, Post Detail, and Admin pages, Internet Identity login controls, allowlist management UI, media upload/gallery components, and a warm charcoal/cream theme with paper texture background. However, several backend data/authorization and API-shape requirements from the BuildRequest are not evidenced in the diff summary (notably stable persistence, timestamps/fields, pagination, and owner-constant logic).",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Posts are persisted in the canister and survive reloads/upgrades using stable storage patterns.",
+      "reason": "The backend diff shows in-memory vars/maps/sets (`var nextPostId`, `let posts = Map.empty...`, `let entitledUsers = Set.empty...`) but no stable variables or `preupgrade`/`postupgrade` logic is visible in the provided `backend/main.mo` excerpt.",
+      "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Each post includes at minimum: id, title, body text, createdAt timestamp, updatedAt timestamp, isLocked boolean, and media attachments.",
+      "reason": "The shown `Post` type lacks `updatedAt`, and the internal `PostData` shown does not store `title` at all. Also `createdAt` is set to `Nat64.fromNat(postId)` (not a timestamp).",
+      "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Backend exposes a query for listing posts with pagination parameters and a query for fetching a single post by id.",
+      "reason": "Frontend calls `actor.getAllPosts()` with no pagination args, suggesting the listing API is not paginated. No evidence of pagination parameters is shown in backend excerpt.",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts (truncated)",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Owner identity is determined by caller principal and a configured owner principal constant (document where to set it).",
+      "reason": "Frontend initializes admin access via a secret URL parameter (`caffeineAdminToken`) and calls `_initializeAccessControlWithSecret(adminToken)`; backend uses an `AccessControl` permission check, but no configured owner principal constant/documentation is evidenced in the shown backend excerpt.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile management APIs (get/save user profiles) requiring a #user permission.",
+      "reason": "BuildRequest does not mention user profiles; scope is single-author posts with II-gated locked content and allowlist entitlements.",
+      "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "description": "Secret-token-based admin initialization via URL parameter (`caffeineAdminToken`) and `_initializeAccessControlWithSecret`.",
+      "reason": "BuildRequest specifies owner is determined by caller principal and a configured owner principal constant; it does not request an admin secret token mechanism passed via URL params.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo (truncated)"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AdminRouteGuard.tsx",
+    "frontend/src/components/AllowlistManager.tsx",
+    "frontend/src/components/AppLayout.tsx",
+    "frontend/src/components/AsyncState.tsx",
+    "frontend/src/components/AuthButton.tsx",
+    "frontend/src/components/MediaGallery.tsx",
+    "frontend/src/components/MediaUploader.tsx",
+    "frontend/src/components/TopNav.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useAdminStatus.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/PostDetailPage.tsx",
+    "frontend/src/utils/principal.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

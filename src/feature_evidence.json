@@ -1,0 +1,165 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-an-owner-only-authoring-admin-workflow-so-only-the-site-owner-can-create-and-manage-posts",
+      "featureTitle": "Add an owner-only authoring/admin workflow so only the site owner can create and manage posts.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AdminRouteGuard.tsx",
+        "frontend/src/components/TopNav.tsx",
+        "frontend/src/hooks/useAdminStatus.ts",
+        "frontend/src/pages/AdminPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-gate-locked-posts-behind-internet-identity-login-users-can-browse-free-content-publicly-but-must-sign-in-with-internet-identity-to-view-locked-post-content",
+      "featureTitle": "Gate locked posts behind Internet Identity login: users can browse free content publicly, but must sign in with Internet Identity to view locked post content.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AuthButton.tsx",
+        "frontend/src/hooks/useInternetIdentity.ts",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-minimal-paywall-entitlement-mechanism-for-locked-posts-without-integrating-payments-after-internet-identity-login-only-principals-that-are-explicitly-allowed-can-view-locked-content-the-owner-can-grant-revoke-access",
+      "featureTitle": "Implement a minimal paywall entitlement mechanism for locked posts (without integrating payments): after Internet Identity login, only principals that are explicitly allowed can view locked content; the owner can grant/revoke access.",
+      "files": [
+        "frontend/src/components/AllowlistManager.tsx",
+        "frontend/src/pages/AdminPage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx",
+        "frontend/src/utils/principal.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-support-media-attachments-on-posts-in-the-initial-version-allow-adding-images-and-videos-to-a-post-and-display-them-in-post-detail-views",
+      "featureTitle": "Support media attachments on posts in the initial version: allow adding images and videos to a post, and display them in post detail views.",
+      "files": [
+        "frontend/src/components/MediaGallery.tsx",
+        "frontend/src/components/MediaUploader.tsx",
+        "frontend/src/pages/AdminPage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-public-facing-pages-for-browsing-and-reading-posts-a-home-feed-page-a-post-detail-page-and-basic-navigation",
+      "featureTitle": "Create public-facing pages for browsing and reading posts: a home/feed page, a post detail page, and basic navigation.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/TopNav.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-coherent-visual-theme-and-typography-system-for-the-journal-app-and-apply-it-consistently-across-pages",
+      "featureTitle": "Add a coherent visual theme and typography system for the journal app and apply it consistently across pages.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-content-safety-quality-constraints-and-empty-loading-states-throughout-the-ui",
+      "featureTitle": "Add basic content safety/quality constraints and empty/loading states throughout the UI.",
+      "files": [
+        "frontend/src/components/AsyncState.tsx",
+        "frontend/src/pages/AdminPage.tsx",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

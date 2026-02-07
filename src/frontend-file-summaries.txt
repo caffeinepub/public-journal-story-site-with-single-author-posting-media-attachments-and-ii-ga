@@ -1,0 +1,19 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining routes for home, post detail, and admin pages with AppLayout wrapper.",
+  "frontend/src/pages/HomePage.tsx": "Home page displaying all posts in reverse chronological order with locked indicators, loading states, and empty state with admin CTA.",
+  "frontend/src/pages/PostDetailPage.tsx": "Post detail page showing full post content with locked/unauthorized states, Internet Identity login prompt, and media gallery.",
+  "frontend/src/pages/AdminPage.tsx": "Admin dashboard for creating, editing, and deleting posts with form validation, media upload, and allowlist management.",
+  "frontend/src/components/AppLayout.tsx": "Layout wrapper providing consistent header, footer, theme provider, and toast notifications across all pages.",
+  "frontend/src/components/TopNav.tsx": "Top navigation bar with logo, home/admin links (admin-gated), and authentication button.",
+  "frontend/src/components/AuthButton.tsx": "Internet Identity login/logout button with loading states and query cache clearing on logout.",
+  "frontend/src/components/AdminRouteGuard.tsx": "Route guard component that shows access denied screen for non-admin users attempting to access admin pages.",
+  "frontend/src/components/AllowlistManager.tsx": "Admin component for granting/revoking access to locked content and checking user access status by principal ID.",
+  "frontend/src/components/MediaUploader.tsx": "File upload component for adding images and videos to posts with progress tracking using ExternalBlob.",
+  "frontend/src/components/MediaGallery.tsx": "Responsive gallery component displaying image and video attachments using direct blob URLs.",
+  "frontend/src/components/AsyncState.tsx": "Reusable component for displaying error states with retry functionality across the application.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including posts CRUD, access control, media upload, and user profiles.",
+  "frontend/src/hooks/useAdminStatus.ts": "Hook to check if the current user has admin privileges, used for conditional UI rendering.",
+  "frontend/src/utils/principal.ts": "Utility function to validate and parse Internet Computer principal IDs with user-friendly error messages.",
+  "frontend/src/index.css": "Global styles with warm charcoal/cream OKLCH color palette, paper texture background, and serif typography for headings.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom fonts (Inter/Crimson Pro), extended color tokens, and custom shadows for the journal aesthetic."
+}
