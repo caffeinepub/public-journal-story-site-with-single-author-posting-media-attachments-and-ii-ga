@@ -1,11 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Allow an admin/owner to force-update an existing post’s `createdAt` timestamp to the current time and see the change immediately in the Admin UI.
+**Goal:** Refresh the journal site’s frontend design to feel cleaner and more professional through improved typography, spacing, navigation clarity, post reading layout, and an updated English-only footer.
 
 **Planned changes:**
-- Add an admin/owner-only backend method in `backend/main.mo` that takes a `postId` and sets that post’s `createdAt` to the current Unix epoch time in seconds (via `Time.now()` and the existing `toUnixSeconds` helper), trapping with “Post not found” when applicable.
-- Add a React Query mutation hook in `frontend/src/hooks/useQueries.ts` to call the new backend method and invalidate `['posts']` and `['post', postId]` on success.
-- Update `frontend/src/pages/AdminPage.tsx` to include an admin-only control per post to trigger “set date to now”, with English success/error toasts and an updated date shown after refetch.
+- Refine typography scale, whitespace, and layout rhythm across Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line length).
+- Update the Home feed presentation with a simple header section (site title + short English tagline) and clearer, more scannable post card spacing/hierarchy (title/date/excerpt).
+- Improve navigation clarity on desktop and mobile so users can always return to the Home feed and easily access primary actions, with clear hover/focus/active states.
+- Refine the Post detail reading experience with improved content typography/spacing and better integrated media section spacing/padding.
+- Update the site-wide footer to be simple and professional, fully in English, and free of decorative symbols/emojis while keeping existing links accessible.
 
-**User-visible outcome:** In the Admin page, the owner/admin can click a control on a specific post to set its date to “now” and immediately see the updated date reflected in the admin list (and on subsequent loads).
+**User-visible outcome:** Pages look more readable and consistent, the Home feed has a clearer header and easier-to-scan cards, navigation is more obvious (including on mobile), post reading feels more comfortable, and the footer is clean English-only while keeping existing states and links working.

@@ -1,59 +1,122 @@
 {
   "kind": "build_request",
-  "title": "Force-set an existing post’s createdAt date to today’s exact date",
+  "title": "Refresh journal site design (typography, spacing, navigation, footer)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-18",
-      "text": "Add an owner/admin-only backend operation that force-updates an existing post’s stored `createdAt` timestamp to the current time (today’s exact date), persisted in canister state.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "recent-messages"
-        ],
-        "quotes": [
-          "can you  re‑run the fix again and force-set the post’s date to today’s exact date"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A new `shared ({ caller })` method exists in `backend/main.mo` that is restricted to admins/owner (same permission check used by `createPost`/`updatePost`).",
-        "The method takes a `postId : PostId` (Nat) and sets that post’s `createdAt` to the current Unix epoch time in seconds derived from `Time.now()` (using the existing `toUnixSeconds` helper).",
-        "If the postId does not exist, the method traps with a clear \"Post not found\" error (consistent with existing CRUD behavior).",
-        "After calling the method, subsequent calls to `getPost(postId)` and `getAllPosts()` return the updated `createdAt` value for that post, and the value remains updated after refresh/reload (persisted state)."
-      ]
-    },
-    {
-      "id": "REQ-19",
-      "text": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
+      "id": "REQ-20",
+      "text": "Update the overall visual styling to look cleaner and more professional by refining typography scale, whitespace, and layout rhythm across the Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line-length for body text).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages"
+          "msg-user-yes-update-design"
         ],
         "quotes": [
-          "can you  re‑run the fix again and force-set the post’s date to today’s exact date"
+          "yes, update the design"
         ]
       },
       "acceptanceCriteria": [
-        "A new React Query mutation hook is added in `frontend/src/hooks/useQueries.ts` that calls the new backend method and invalidates `['posts']` and the specific `['post', postId]` query keys on success.",
-        "`frontend/src/pages/AdminPage.tsx` provides an admin-only control on each post row/card to trigger the \"set date to now\" action for that post.",
-        "On success, the UI shows an English toast confirming the date was updated, and the date displayed in the admin list updates after query invalidation/refetch.",
-        "On failure, the UI shows an English error toast and does not silently succeed."
+        "HomePage, PostDetailPage, and AdminPage use consistent max-width/container spacing and do not feel cramped on mobile or overly wide on desktop.",
+        "Post titles and body text are noticeably easier to read (clear hierarchy between title/date/body).",
+        "No new features or backend changes are introduced; changes are limited to styling/layout."
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "text": "Improve the Home feed page presentation by adding a simple header section (site title and short tagline/description in English) above the list, and make post cards easier to scan with clearer spacing between title, date, and excerpt.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-yes-update-design"
+        ],
+        "quotes": [
+          "yes, update the design"
+        ]
+      },
+      "acceptanceCriteria": [
+        "HomePage shows a header area above the feed with a site title and a short descriptive tagline in English.",
+        "Feed cards have clear, consistent spacing and typographic hierarchy (title stands out, date is secondary, excerpt is readable).",
+        "The existing loading/empty/error states remain and still look visually consistent with the new styling."
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "text": "Make navigation clearer on both desktop and mobile by ensuring there is an obvious way to return to the Home feed from any page (including on small screens), and by improving the visibility/affordance of primary navigation actions in the top navigation.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-yes-update-design"
+        ],
+        "quotes": [
+          "yes, update the design"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On mobile widths, users can access navigation to “Stories” (and “Admin” when applicable) without relying on hidden desktop-only UI.",
+        "PostDetailPage continues to provide a clear “Back to Stories” action that is visually consistent with the updated theme.",
+        "Navigation elements have clear active/hover/focus states."
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "text": "Refine the Post detail reading experience by improving content typography and spacing, and by improving media presentation spacing (e.g., more breathing room around the media section and consistent card padding).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-yes-update-design"
+        ],
+        "quotes": [
+          "yes, update the design"
+        ]
+      },
+      "acceptanceCriteria": [
+        "PostDetailPage body text uses a comfortable reading size/line-height and consistent spacing between sections.",
+        "MediaGallery section visually integrates with the post (consistent headings, spacing, and card treatment).",
+        "Locked/not-authorized states remain functionally identical and still look polished after restyling."
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "text": "Update the footer to be simple, professional, and fully in English (remove decorative symbols/emojis), while keeping it lightweight and consistent with the site theme.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user-yes-update-design"
+        ],
+        "quotes": [
+          "yes, update the design"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Footer text contains no emojis or non-English symbols.",
+        "Footer remains present site-wide via the existing layout and matches the updated styling.",
+        "Any existing external link(s) in the footer remain functional and accessible (appropriate contrast, hover states)."
       ]
     }
   ],
   "constraints": [
-    "Keep all backend logic in the single Motoko actor (`backend/main.mo`).",
-    "Do not edit files under `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, or `frontend/src/components/ui` (compose existing UI components instead).",
-    "Use English for any user-facing text."
+    "Frontend immutable paths must not be edited: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
+    "Do not introduce new backend APIs or data model changes; this request is design/styling only.",
+    "Use English for all user-facing text.",
+    "Do not add blue/purple as the dominant palette (keep the design aligned with the existing warm, journal-like aesthetic)."
   ],
   "nonGoals": [
-    "Do not add external payment processing or new entitlement logic.",
-    "Do not change date formatting rules (Australia/Sydney timezone formatting remains as-is).",
-    "Do not redesign the overall UI theme as part of this change."
+    "Adding new product features (e.g., comments, search, categories/tags, about page routing) beyond minor copy/layout adjustments requested as part of the design refresh.",
+    "Changing authentication, paywall/allowlist logic, or post data behavior.",
+    "Replacing the existing logo or paper texture assets unless explicitly requested."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

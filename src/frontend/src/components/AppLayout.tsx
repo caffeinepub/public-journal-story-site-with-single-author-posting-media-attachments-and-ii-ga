@@ -15,7 +15,17 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <main className="pb-16">{children}</main>
         <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container py-8 text-center text-sm text-muted-foreground">
-            <p>© 2026. Built with ❤️ using <a href="https://caffeine.ai" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">caffeine.ai</a></p>
+            <p>
+              © 2026. Built with love using{' '}
+              <a 
+                href="https://caffeine.ai" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="underline hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+              >
+                caffeine.ai
+              </a>
+            </p>
           </div>
         </footer>
         <Toaster />

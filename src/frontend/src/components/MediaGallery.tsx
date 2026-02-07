@@ -10,15 +10,15 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
   if (!media || media.length === 0) return null;
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-serif font-semibold">Media</h3>
-      <div className="grid gap-4 sm:grid-cols-2">
+    <div className="space-y-6 pt-4">
+      <h3 className="text-xl font-serif font-semibold">Attachments</h3>
+      <div className="grid gap-6 sm:grid-cols-2">
         {media.map((item, index) => (
-          <Card key={index} className="overflow-hidden">
+          <Card key={index} className="overflow-hidden border-border/50">
             {item.mediaType === MediaType.image ? (
               <img
                 src={item.file.getDirectURL()}
-                alt={`Media ${index + 1}`}
+                alt={`Attachment ${index + 1}`}
                 className="w-full h-auto object-cover"
                 loading="lazy"
               />

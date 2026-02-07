@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 13,
+  "projectStateVersion": 15,
   "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
   "architectural_notes": [
     "Single-author system: only the site owner can create/manage posts; public users are readers only.",
@@ -15,7 +15,7 @@
     "Bug: Existing post date is still incorrect for the only post currently on the site ('Backroads Litter') — it displays as 23 November 2022 while today's date is 08 January 2026 (Australia/Sydney).",
     "Root cause hypothesis: backend is storing `createdAt = 0` on post creation, leading to incorrect rendered dates (e.g., “Backroads Litter” not showing today’s Australia/Sydney date)."
   ],
-  "isFixRequest": true,
+  "isFixRequest": false,
   "existing_features": [
     {
       "id": "feature-add-an-owner-only-authoring-admin-workflow-so-only-the-site-owner-can-create-and-manage-posts",
@@ -94,6 +94,46 @@
       "title": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
       "reqIds": [
         "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-overall-visual-styling-to-look-cleaner-and-more-professional-by-refining-typography-scale-whitespace-and-layout-rhythm-across-the-home-feed-post-detail-and-admin-pages-consistent-container-widths-vertical-spacing-and-readable-line-length-for-body-text",
+      "title": "Update the overall visual styling to look cleaner and more professional by refining typography scale, whitespace, and layout rhythm across the Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line-length for body text).",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-the-home-feed-page-presentation-by-adding-a-simple-header-section-site-title-and-short-tagline-description-in-english-above-the-list-and-make-post-cards-easier-to-scan-with-clearer-spacing-between-title-date-and-excerpt",
+      "title": "Improve the Home feed page presentation by adding a simple header section (site title and short tagline/description in English) above the list, and make post cards easier to scan with clearer spacing between title, date, and excerpt.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-navigation-clearer-on-both-desktop-and-mobile-by-ensuring-there-is-an-obvious-way-to-return-to-the-home-feed-from-any-page-including-on-small-screens-and-by-improving-the-visibility-affordance-of-primary-navigation-actions-in-the-top-navigation",
+      "title": "Make navigation clearer on both desktop and mobile by ensuring there is an obvious way to return to the Home feed from any page (including on small screens), and by improving the visibility/affordance of primary navigation actions in the top navigation.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refine-the-post-detail-reading-experience-by-improving-content-typography-and-spacing-and-by-improving-media-presentation-spacing-e-g-more-breathing-room-around-the-media-section-and-consistent-card-padding",
+      "title": "Refine the Post detail reading experience by improving content typography and spacing, and by improving media presentation spacing (e.g., more breathing room around the media section and consistent card padding).",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-footer-to-be-simple-professional-and-fully-in-english-remove-decorative-symbols-emojis-while-keeping-it-lightweight-and-consistent-with-the-site-theme",
+      "title": "Update the footer to be simple, professional, and fully in English (remove decorative symbols/emojis), while keeping it lightweight and consistent with the site theme.",
+      "reqIds": [
+        "REQ-24"
       ],
       "version": 1
     }
@@ -211,6 +251,12 @@
       "reqIds": [
         "REQ-18"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Update the site design/styling to look cleaner and more professional (typography, spacing, margins, clearer navigation like a Back to Home button, and a simple footer)",
+      "reqIds": [],
       "status": "pending"
     }
   ],

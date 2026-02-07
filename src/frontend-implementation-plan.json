@@ -1,27 +1,130 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Admin UI action to force-set a post date to now",
+  "title": "Journal design refresh: typography, spacing, navigation, and footer",
   "requirements": [
     {
-      "id": "REQ-19",
-      "summary": "Expose the backend force-set-date operation in the Admin UI so an admin can update a post’s createdAt to now and immediately see the updated date.",
+      "id": "REQ-20",
+      "summary": "Refresh global typography/spacing rhythm and apply consistent container widths across Home, Post detail, and Admin pages.",
       "acceptanceCriteria": [
-        "A new React Query mutation hook is added in `frontend/src/hooks/useQueries.ts` that calls the new backend method and invalidates `['posts']` and the specific `['post', postId]` query keys on success.",
-        "`frontend/src/pages/AdminPage.tsx` provides an admin-only control on each post row/card to trigger the \"set date to now\" action for that post.",
-        "On success, the UI shows an English toast confirming the date was updated, and the date displayed in the admin list updates after query invalidation/refetch.",
-        "On failure, the UI shows an English error toast and does not silently succeed."
+        "HomePage, PostDetailPage, and AdminPage use consistent max-width/container spacing and do not feel cramped on mobile or overly wide on desktop.",
+        "Post titles and body text are noticeably easier to read (clear hierarchy between title/date/body).",
+        "No new features or backend changes are introduced; changes are limited to styling/layout."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Add a new React Query mutation hook (e.g., `useUpdatePostTimestamp`) that calls the backend capability `actor.updatePostTimestamp(postId)` and, on success, invalidates `['posts']` and `['post', postId.toString()]` so the admin list and any open post detail refetch."
+          "description": "Refine global typography defaults and layout rhythm (base font sizing/leading, heading scale, consistent vertical spacing utilities, and readable default text rendering). Keep the existing warm palette (avoid blue/purple dominance) and ensure focus styles are visible. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind container defaults to improve responsive padding and consistent max-width behavior across pages (comfortable mobile gutters and controlled desktop width). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Align page wrapper spacing to the shared container rhythm (consistent max-width, vertical padding, and card spacing) without changing data logic or states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "modify",
+          "description": "Align PostDetail layout to the shared container rhythm and improve reading line-length/spacing for title/date/body while preserving all locked/unauthorized behaviors. Verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/pages/AdminPage.tsx",
           "operation": "modify",
-          "description": "Wire the new mutation into the Admin Dashboard: add an admin-only per-post control (button/icon) in each post card row to trigger the \"Set date to now\" action for that post, show an English success toast on completion, and show an English error toast if the mutation fails; ensure the displayed date updates via the query invalidation/refetch and disable/show loading state while the mutation is pending."
+          "description": "Align Admin layout to the shared container rhythm (consistent width/padding and improved section spacing) while keeping admin capabilities unchanged. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "summary": "Add a simple Home feed header (site title + English tagline) and improve post card scanability with clearer hierarchy and spacing.",
+      "acceptanceCriteria": [
+        "HomePage shows a header area above the feed with a site title and a short descriptive tagline in English.",
+        "Feed cards have clear, consistent spacing and typographic hierarchy (title stands out, date is secondary, excerpt is readable).",
+        "The existing loading/empty/error states remain and still look visually consistent with the new styling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add a top-of-feed header section (English site title + short tagline) and refine post card layout/typography (title/date/excerpt spacing, consistent card padding). Ensure loading/empty/error states remain intact and visually consistent. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AsyncState.tsx",
+          "operation": "modify",
+          "description": "Tune spacing/typography so Home error state matches the refreshed visual rhythm (no behavior changes). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Improve navigation clarity on desktop and mobile with an obvious Home/Stories route from any page and stronger nav affordance states.",
+      "acceptanceCriteria": [
+        "On mobile widths, users can access navigation to “Stories” (and “Admin” when applicable) without relying on hidden desktop-only UI.",
+        "PostDetailPage continues to provide a clear “Back to Stories” action that is visually consistent with the updated theme.",
+        "Navigation elements have clear active/hover/focus states."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TopNav.tsx",
+          "operation": "modify",
+          "description": "Add a mobile-accessible primary navigation pattern (e.g., a visible menu trigger that exposes Stories and, when applicable, Admin) and refine active/hover/focus states for primary actions and logo/home affordance. Use shadcn-ui components (e.g., Button and an existing menu component) to keep styling consistent. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "modify",
+          "description": "Restyle the existing “Back to Stories” action to match the updated theme and ensure it remains prominent on small screens (no behavior change). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Ensure consistent, accessible focus-visible styles for interactive elements (nav buttons/links/menu trigger) and subtle hover states aligned with the warm palette. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Improve Post detail reading experience with better content typography/spacing and more integrated media section presentation.",
+      "acceptanceCriteria": [
+        "PostDetailPage body text uses a comfortable reading size/line-height and consistent spacing between sections.",
+        "MediaGallery section visually integrates with the post (consistent headings, spacing, and card treatment).",
+        "Locked/not-authorized states remain functionally identical and still look polished after restyling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "modify",
+          "description": "Refine article typography and spacing (title/date/body hierarchy, comfortable line-height, consistent section separation). Keep locked/not-authorized screens functionally identical while polishing layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/MediaGallery.tsx",
+          "operation": "modify",
+          "description": "Improve MediaGallery spacing and visual integration with the post (consistent heading style, grid spacing, and card padding/treatment around media). Keep existing media rendering logic unchanged. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Update the site-wide footer to be clean, professional, and fully English with no emojis/symbols, consistent with the theme.",
+      "acceptanceCriteria": [
+        "Footer text contains no emojis or non-English symbols.",
+        "Footer remains present site-wide via the existing layout and matches the updated styling.",
+        "Any existing external link(s) in the footer remain functional and accessible (appropriate contrast, hover states)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Rewrite footer copy to be fully English with no emojis/special symbols, and refine footer spacing/typography to match the refreshed theme while preserving the existing external link and accessibility states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Ensure footer link styles (contrast, hover/focus) match the updated theme globally without introducing a dominant blue/purple palette. Verify the component's usage instructions before implementing."
         }
       ]
     }

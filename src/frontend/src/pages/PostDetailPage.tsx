@@ -24,15 +24,15 @@ export default function PostDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container max-w-4xl py-12">
-        <Button variant="ghost" onClick={() => navigate({ to: '/' })} className="mb-6">
+      <div className="container max-w-3xl py-12 space-y-8">
+        <Button variant="ghost" onClick={() => navigate({ to: '/' })} className="mb-2">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Stories
         </Button>
         <Card>
-          <CardHeader>
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-4 w-1/4 mt-2" />
+          <CardHeader className="space-y-6">
+            <Skeleton className="h-12 w-3/4" />
+            <Skeleton className="h-5 w-1/4" />
           </CardHeader>
           <CardContent>
             <Skeleton className="h-64 w-full" />
@@ -44,8 +44,8 @@ export default function PostDetailPage() {
 
   if (error || !post) {
     return (
-      <div className="container max-w-4xl py-12">
-        <Button variant="ghost" onClick={() => navigate({ to: '/' })} className="mb-6">
+      <div className="container max-w-3xl py-12 space-y-8">
+        <Button variant="ghost" onClick={() => navigate({ to: '/' })} className="mb-2">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Stories
         </Button>
@@ -62,21 +62,25 @@ export default function PostDetailPage() {
   const displayContent = post.isLocked && lockedContent ? lockedContent : post.content;
 
   return (
-    <div className="container max-w-4xl py-12">
-      <Button variant="ghost" onClick={() => navigate({ to: '/' })} className="mb-6">
+    <div className="container max-w-3xl py-12 space-y-8">
+      <Button 
+        variant="ghost" 
+        onClick={() => navigate({ to: '/' })} 
+        className="mb-2 hover:bg-accent"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Stories
       </Button>
 
       <article>
-        <Card className="overflow-hidden">
-          <CardHeader className="space-y-4">
+        <Card className="overflow-hidden border-border/50">
+          <CardHeader className="space-y-6 pb-8">
             <div className="flex items-start justify-between gap-4">
-              <CardTitle className="text-4xl font-serif">
+              <CardTitle className="text-3xl md:text-4xl font-serif leading-tight">
                 {post.title || 'Untitled Entry'}
               </CardTitle>
               {post.isLocked && (
-                <Badge variant="secondary" className="flex items-center gap-1 shrink-0">
+                <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
                   <Lock className="h-3 w-3" />
                   Locked
                 </Badge>
@@ -88,15 +92,15 @@ export default function PostDetailPage() {
             </div>
           </CardHeader>
 
-          <CardContent className="space-y-8">
+          <CardContent className="space-y-10 pt-0">
             {showLockedState ? (
-              <div className="text-center py-16 space-y-6">
+              <div className="text-center py-20 space-y-6">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted">
                   <Lock className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <h3 className="text-2xl font-serif font-bold">This Story is Locked</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
+                  <p className="text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
                     Sign in with Internet Identity to access exclusive content.
                   </p>
                 </div>
@@ -106,13 +110,13 @@ export default function PostDetailPage() {
                 </Button>
               </div>
             ) : showNotAuthorizedState ? (
-              <div className="text-center py-16 space-y-6">
+              <div className="text-center py-20 space-y-6">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted">
                   <Lock className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <h3 className="text-2xl font-serif font-bold">Access Required</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
+                  <p className="text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
                     You don't have permission to view this content. Contact the author for access.
                   </p>
                 </div>
@@ -122,8 +126,8 @@ export default function PostDetailPage() {
                 {lockedLoading ? (
                   <Skeleton className="h-64 w-full" />
                 ) : (
-                  <div className="prose prose-lg max-w-none">
-                    <p className="whitespace-pre-wrap text-foreground leading-relaxed">
+                  <div className="prose-reading">
+                    <p className="whitespace-pre-wrap text-foreground">
                       {displayContent}
                     </p>
                   </div>

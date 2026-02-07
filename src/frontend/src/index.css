@@ -85,10 +85,47 @@
     body {
         @apply bg-background text-foreground;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
     }
     
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Crimson Pro', 'Georgia', serif;
+        line-height: 1.3;
+        font-weight: 600;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 0.875rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    p {
+        margin-bottom: 1rem;
+    }
+    
+    /* Focus styles for accessibility */
+    *:focus-visible {
+        @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    }
+    
+    /* Link styles */
+    a {
+        @apply transition-colors;
+    }
+    
+    a:hover {
+        @apply text-primary;
     }
 }
 
@@ -101,5 +138,12 @@
     
     .font-serif {
         font-family: 'Crimson Pro', 'Georgia', serif;
+    }
+    
+    /* Reading-optimized text */
+    .prose-reading {
+        font-size: 1.125rem;
+        line-height: 1.75;
+        max-width: 65ch;
     }
 }
