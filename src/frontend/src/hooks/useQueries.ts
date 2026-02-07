@@ -93,6 +93,22 @@ export function useDeletePost() {
   });
 }
 
+export function useUpdatePostTimestamp() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (postId: PostId) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.updatePostTimestamp(postId);
+    },
+    onSuccess: (_, postId) => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post', postId.toString()] });
+    },
+  });
+}
+
 export function useGrantAccess() {
   const { actor } = useActor();
 

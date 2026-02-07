@@ -1,4 +1,26 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-expose-the-backend-force-set-date-operation-in-the-admin-ui-so-the-owner-can-re-run-the-fix-for-a-chosen-post-e-g-the-existing-backroads-litter-post-and-immediately-see-the-updated-date",
+      "featureTitle": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/AdminPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-19"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

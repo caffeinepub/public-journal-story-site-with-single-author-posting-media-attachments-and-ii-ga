@@ -92,6 +92,7 @@ export const idlService = IDL.Service({
   'revokeAccess' : IDL.Func([IDL.Principal], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'updatePost' : IDL.Func([PostId, IDL.Text, IDL.Text, IDL.Bool], [], []),
+  'updatePostTimestamp' : IDL.Func([PostId], [], []),
 });
 
 export const idlInitArgs = [];
@@ -178,6 +179,7 @@ export const idlFactory = ({ IDL }) => {
     'revokeAccess' : IDL.Func([IDL.Principal], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'updatePost' : IDL.Func([PostId, IDL.Text, IDL.Text, IDL.Bool], [], []),
+    'updatePostTimestamp' : IDL.Func([PostId], [], []),
   });
 };
 

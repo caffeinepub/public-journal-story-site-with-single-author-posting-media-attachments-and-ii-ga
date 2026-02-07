@@ -1,56 +1,56 @@
 {
   "kind": "build_request",
-  "title": "Fix backend post createdAt timestamps and migrate existing “Backroads Litter” date",
-  "priority": "high",
+  "title": "Force-set an existing post’s createdAt date to today’s exact date",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-16",
-      "text": "Update backend post creation so `createdAt` is stored as the current Unix epoch timestamp in seconds (Nat64) instead of `0` when the owner creates a new post.",
+      "id": "REQ-18",
+      "text": "Add an owner/admin-only backend operation that force-updates an existing post’s stored `createdAt` timestamp to the current time (today’s exact date), persisted in canister state.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "recent-messages"
         ],
         "quotes": [
-          "the date is still not todays date. how would you fix it",
-          "run it now please"
+          "can you  re‑run the fix again and force-set the post’s date to today’s exact date"
         ]
       },
       "acceptanceCriteria": [
-        "Creating a new post as the admin stores `createdAt` as a non-zero value representing the current time in epoch seconds.",
-        "A newly created post appears in the UI with today’s date when formatted in Australia/Sydney timezone (using the existing frontend formatter)."
+        "A new `shared ({ caller })` method exists in `backend/main.mo` that is restricted to admins/owner (same permission check used by `createPost`/`updatePost`).",
+        "The method takes a `postId : PostId` (Nat) and sets that post’s `createdAt` to the current Unix epoch time in seconds derived from `Time.now()` (using the existing `toUnixSeconds` helper).",
+        "If the postId does not exist, the method traps with a clear \"Post not found\" error (consistent with existing CRUD behavior).",
+        "After calling the method, subsequent calls to `getPost(postId)` and `getAllPosts()` return the updated `createdAt` value for that post, and the value remains updated after refresh/reload (persisted state)."
       ]
     },
     {
-      "id": "REQ-17",
-      "text": "Add a safe canister upgrade migration that permanently corrects invalid `createdAt` values in persisted posts, including ensuring the existing post titled \"Backroads Litter\" has a stored `createdAt` that renders as \"08 January 2026\" in the Australia/Sydney timezone.",
-      "target": "backend",
+      "id": "REQ-19",
+      "text": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "recent-messages"
         ],
         "quotes": [
-          "the date is still not todays date. how would you fix it",
-          "yes please"
+          "can you  re‑run the fix again and force-set the post’s date to today’s exact date"
         ]
       },
       "acceptanceCriteria": [
-        "The project includes an upgrade-safe migration path (per the platform’s conditional migration policy) so existing canister state can be upgraded without trapping.",
-        "After upgrade, any post(s) with invalid `createdAt` values (e.g., `0` / epoch-like) are updated to a reasonable non-zero epoch-seconds timestamp.",
-        "After upgrade, the post titled \"Backroads Litter\" renders as \"08 January 2026\" in Australia/Sydney timezone on both the home feed and post detail page (using existing frontend date formatting)."
+        "A new React Query mutation hook is added in `frontend/src/hooks/useQueries.ts` that calls the new backend method and invalidates `['posts']` and the specific `['post', postId]` query keys on success.",
+        "`frontend/src/pages/AdminPage.tsx` provides an admin-only control on each post row/card to trigger the \"set date to now\" action for that post.",
+        "On success, the UI shows an English toast confirming the date was updated, and the date displayed in the admin list updates after query invalidation/refetch.",
+        "On failure, the UI shows an English error toast and does not silently succeed."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor in `backend/main.mo`; do not introduce additional backend services.",
-    "Use a conditional upgrade migration approach; only add/modify migration code when upgrading existing state is required.",
-    "Keep all user-facing text in English.",
-    "Do not modify any frontend files under `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, or any files in `frontend/src/components/ui`."
+    "Keep all backend logic in the single Motoko actor (`backend/main.mo`).",
+    "Do not edit files under `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, or `frontend/src/components/ui` (compose existing UI components instead).",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Integrate payments or any external entitlement/payment provider.",
-    "Change frontend date formatting rules (timezone/locale) beyond what already exists.",
-    "Add new UI features unrelated to correcting/normalizing stored `createdAt` timestamps."
+    "Do not add external payment processing or new entitlement logic.",
+    "Do not change date formatting rules (Australia/Sydney timezone formatting remains as-is).",
+    "Do not redesign the overall UI theme as part of this change."
   ],
   "imageRequirements": {
     "required": [],

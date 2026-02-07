@@ -74,6 +74,7 @@ export interface _SERVICE {
   'revokeAccess' : ActorMethod<[Principal], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'updatePost' : ActorMethod<[PostId, string, string, boolean], undefined>,
+  'updatePostTimestamp' : ActorMethod<[PostId], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

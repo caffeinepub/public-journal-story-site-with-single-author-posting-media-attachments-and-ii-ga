@@ -1,39 +1,52 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T23:12:14.642Z",
-  "summary": "REQ-16 appears implemented by setting createdAt during post creation using the current time (via toUnixSeconds(Time.now())). REQ-17 is only partially addressed: a migration is added and wired in, but it unconditionally overwrites createdAt for all posts to a hardcoded timestamp rather than conditionally correcting only invalid timestamps and specifically ensuring the \"Backroads Litter\" post renders as 08 January 2026 in Australia/Sydney.",
+  "generatedAt": "2026-02-07T23:24:14.303Z",
+  "summary": "Frontend adds a React Query mutation (useUpdatePostTimestamp) and Admin UI action with English success/error toasts to update a post’s timestamp. Backend shows a new shared method stub (updatePostTimestamp) and introduces a migration module, but the backend implementation details required by REQ-18 are not fully verifiable from the truncated diff.",
   "missing_requirements": [
     {
-      "id": "REQ-17",
-      "requirement": "Use a conditional, upgrade-safe migration to permanently correct invalid persisted createdAt values (e.g., 0/epoch-like) without overwriting valid timestamps.",
-      "reason": "The migration shown overwrites createdAt for every post, not just invalid ones, and does not demonstrate any conditional logic to detect and fix only invalid timestamps.",
+      "id": "REQ-18",
+      "requirement": "Backend method must set the target post’s createdAt to current Unix epoch seconds derived from Time.now() using the existing toUnixSeconds helper.",
+      "reason": "The new method `updatePostTimestamp` is present but its body is truncated, so it is not verifiable that it sets `createdAt = toUnixSeconds(Time.now())` for the specified post.",
       "evidence": [
-        "backend/migration.mo"
+        "backend/main.mo (truncated)"
       ]
     },
     {
-      "id": "REQ-17",
-      "requirement": "Ensure the existing post titled \"Backroads Litter\" specifically gets a createdAt that renders as \"08 January 2026\" in Australia/Sydney timezone, while leaving other posts' valid createdAt values intact.",
-      "reason": "The migration does not check the title \"Backroads Litter\" (or any identifier) and instead sets the same hardcoded createdAt for all posts; this does not implement targeted correction for that specific post.",
+      "id": "REQ-18",
+      "requirement": "If postId does not exist, the method must trap with a clear \"Post not found\" error (consistent with existing CRUD behavior).",
+      "reason": "The `updatePostTimestamp` implementation is truncated, so it is not verifiable that it checks for existence and traps with exactly \"Post not found\" when missing.",
       "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "requirement": "After calling the method, getPost(postId) and getAllPosts() must return the updated createdAt and the value must persist after refresh/reload.",
+      "reason": "While state is stored in `posts`, the diff does not provide enough non-truncated evidence that `updatePostTimestamp` actually updates the stored post record and that persistence semantics remain correct across upgrades (especially with the new migration wiring).",
+      "evidence": [
+        "backend/main.mo (truncated)",
         "backend/migration.mo"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Migration hardcodes createdAt = 1767878400 for all existing posts, effectively changing every post date to 08 Jan 2026.",
-      "reason": "The BuildRequest only asks to correct invalid createdAt values and to ensure the specific \"Backroads Litter\" post renders as 08 January 2026; it does not request overwriting timestamps for all posts.",
+      "description": "Introduced a migration module and wired actor migration hook (`import Migration \"migration\"; (with migration = Migration.run)`) even though no migration behavior was requested for this change.",
+      "reason": "BuildRequest only asks for a new admin-only operation and corresponding Admin UI control; it does not request adding/altering canister migration infrastructure.",
       "evidence": [
-        "backend/migration.mo"
+        "backend/migration.mo",
+        "backend/main.mo (truncated)"
       ]
     }
   ],
-  "confidence": 0.74,
+  "confidence": 0.62,
   "changed_files": [
     "backend/main.mo",
     "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AdminPage.tsx",
     "project_state.json"
   ]
 }

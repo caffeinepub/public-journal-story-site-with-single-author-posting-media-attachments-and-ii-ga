@@ -9,8 +9,9 @@ import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
-import Migration "migration";
+
 import Time "mo:core/Time";
+import Migration "migration";
 
 (with migration = Migration.run)
 actor {
@@ -127,6 +128,24 @@ actor {
       Runtime.trap("Post not found");
     };
     posts.remove(postId);
+  };
+
+  public shared ({ caller }) func updatePostTimestamp(postId : PostId) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admin can update the post timestamp");
+    };
+
+    let post = switch (posts.get(postId)) {
+      case (null) { Runtime.trap("Post not found") };
+      case (?post) { post };
+    };
+
+    let updatedPost = {
+      post with
+      createdAt = toUnixSeconds(Time.now());
+    };
+
+    posts.add(postId, updatedPost);
   };
 
   // --- Entitlement Management (Owner only) ---

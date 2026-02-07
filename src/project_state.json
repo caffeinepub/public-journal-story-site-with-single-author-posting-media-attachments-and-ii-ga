@@ -1,12 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 13,
   "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
   "architectural_notes": [
     "Single-author system: only the site owner can create/manage posts; public users are readers only.",
     "Access control model: posts have free vs locked visibility; locked content requires Internet Identity login to view.",
     "Post timestamps/dates should be stored and rendered using Australia/Sydney timezone defaults (at least for initial MVP).",
-    "Existing posts may have incorrect stored timestamps (not just 1970); add/maintain a migration pathway to normalize legacy `createdAt` values to correct Australia/Sydney dates."
+    "Existing posts may have incorrect stored timestamps (not just 1970); add/maintain a migration pathway to normalize legacy `createdAt` values to correct Australia/Sydney dates.",
+    "Provide an idempotent, repeatable admin/migration pathway to correct specific legacy posts' `createdAt` values (e.g., force-set \"Backroads Litter\" to the current date) while persisting the updated timestamp in canister state."
   ],
   "known_issues": [
     "Bug: Editing existing posts in admin does not persist changes (title and content changes do not save); Save closes editor as if successful but post remains unchanged.",
@@ -85,6 +86,14 @@
       "title": "Ensure the frontend shows the corrected date for the \"Backroads Litter\" post on both the home feed and the post detail page after the backend `createdAt` migration is applied (no UI regressions to existing date formatting behavior).",
       "reqIds": [
         "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expose-the-backend-force-set-date-operation-in-the-admin-ui-so-the-owner-can-re-run-the-fix-for-a-chosen-post-e-g-the-existing-backroads-litter-post-and-immediately-see-the-updated-date",
+      "title": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
+      "reqIds": [
+        "REQ-19"
       ],
       "version": 1
     }
@@ -187,6 +196,20 @@
       "summary": "Add a safe canister upgrade migration that permanently corrects invalid `createdAt` values in persisted posts, including ensuring the existing post titled \"Backroads Litter\" has a stored `createdAt` that renders as \"08 January 2026\" in the Australia/Sydney timezone.",
       "reqIds": [
         "REQ-17"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Re-run the backend migration/correction to force-set the existing \"Backroads Litter\" post's stored `createdAt` to today’s exact date (current Australia/Sydney date), persisting the change so it remains correct after refresh/upgrade.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add an owner/admin-only backend operation that force-updates an existing post’s stored `createdAt` timestamp to the current time (today’s exact date), persisted in canister state.",
+      "reqIds": [
+        "REQ-18"
       ],
       "status": "pending"
     }

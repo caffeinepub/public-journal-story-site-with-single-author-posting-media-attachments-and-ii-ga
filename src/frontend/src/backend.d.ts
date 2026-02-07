@@ -56,4 +56,5 @@ export interface backendInterface {
     revokeAccess(user: Principal): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updatePost(postId: PostId, title: string, content: string, isLocked: boolean): Promise<void>;
+    updatePostTimestamp(postId: PostId): Promise<void>;
 }

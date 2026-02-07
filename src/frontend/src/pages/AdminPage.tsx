@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { useGetAllPosts, useCreatePost, useUpdatePost, useDeletePost } from '../hooks/useQueries';
+import { useGetAllPosts, useCreatePost, useUpdatePost, useDeletePost, useUpdatePostTimestamp } from '../hooks/useQueries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Plus, Edit, Trash2, Lock, Unlock, Eye } from 'lucide-react';
+import { Plus, Edit, Trash2, Lock, Unlock, Eye, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import AllowlistManager from '../components/AllowlistManager';
 import MediaUploader from '../components/MediaUploader';
@@ -24,6 +24,7 @@ export default function AdminPage() {
   const createPost = useCreatePost();
   const updatePost = useUpdatePost();
   const deletePost = useDeletePost();
+  const updateTimestamp = useUpdatePostTimestamp();
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
@@ -87,6 +88,16 @@ export default function AdminPage() {
       toast.success('Post deleted successfully');
     } catch (error) {
       toast.error('Failed to delete post');
+      console.error(error);
+    }
+  };
+
+  const handleUpdateTimestamp = async (postId: bigint) => {
+    try {
+      await updateTimestamp.mutateAsync(postId);
+      toast.success('Post date updated to today');
+    } catch (error) {
+      toast.error('Failed to update post date');
       console.error(error);
     }
   };
@@ -239,6 +250,15 @@ export default function AdminPage() {
                             <Button
                               variant="ghost"
                               size="icon"
+                              onClick={() => handleUpdateTimestamp(post.id)}
+                              disabled={updateTimestamp.isPending}
+                              title="Set date to today"
+                            >
+                              <Calendar className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => navigate({ to: '/post/$postId', params: { postId: post.id.toString() } })}
                             >
                               <Eye className="h-4 w-4" />
@@ -296,9 +316,6 @@ export default function AdminPage() {
                                       onCheckedChange={(checked) => setFormData({ ...formData, isLocked: checked })}
                                     />
                                   </div>
-                                  {editingPost && (
-                                    <MediaUploader postId={editingPost.id} />
-                                  )}
                                 </div>
                                 <DialogFooter>
                                   <Button variant="outline" onClick={closeEditDialog}>
@@ -313,7 +330,7 @@ export default function AdminPage() {
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <Button variant="ghost" size="icon">
-                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                  <Trash2 className="h-4 w-4" />
                                 </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
@@ -343,10 +360,28 @@ export default function AdminPage() {
               )}
             </CardContent>
           </Card>
+
+          {editingPost && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl font-serif">Upload Media</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <MediaUploader postId={editingPost.id} />
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         <div className="space-y-6">
-          <AllowlistManager />
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl font-serif">Access Control</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AllowlistManager />
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

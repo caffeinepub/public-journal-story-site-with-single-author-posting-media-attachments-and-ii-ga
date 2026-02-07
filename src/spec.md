@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Ensure backend posts store correct `createdAt` timestamps on creation and safely migrate existing persisted posts with invalid timestamps (including setting “Backroads Litter” to render as 08 January 2026 in Australia/Sydney).
+**Goal:** Allow an admin/owner to force-update an existing post’s `createdAt` timestamp to the current time and see the change immediately in the Admin UI.
 
 **Planned changes:**
-- Update backend post creation logic to store `createdAt` as the current Unix epoch timestamp in seconds (Nat64) instead of `0`.
-- Add an upgrade-safe, conditional canister migration to normalize persisted posts with invalid `createdAt` values to reasonable non-zero epoch-seconds timestamps.
-- Include a specific migration correction so the existing post titled “Backroads Litter” has a stored `createdAt` that renders as “08 January 2026” in Australia/Sydney timezone (using existing frontend formatting).
+- Add an admin/owner-only backend method in `backend/main.mo` that takes a `postId` and sets that post’s `createdAt` to the current Unix epoch time in seconds (via `Time.now()` and the existing `toUnixSeconds` helper), trapping with “Post not found” when applicable.
+- Add a React Query mutation hook in `frontend/src/hooks/useQueries.ts` to call the new backend method and invalidate `['posts']` and `['post', postId]` on success.
+- Update `frontend/src/pages/AdminPage.tsx` to include an admin-only control per post to trigger “set date to now”, with English success/error toasts and an updated date shown after refetch.
 
-**User-visible outcome:** New posts show today’s date in the UI, and after upgrade existing posts (including “Backroads Litter”) display correct dates on both the home feed and post detail page.
+**User-visible outcome:** In the Admin page, the owner/admin can click a control on a specific post to set its date to “now” and immediately see the updated date reflected in the admin list (and on subsequent loads).

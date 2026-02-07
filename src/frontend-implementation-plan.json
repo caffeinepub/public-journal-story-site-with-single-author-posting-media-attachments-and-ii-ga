@@ -1,6 +1,29 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Backend createdAt timestamp fix & migration (no frontend changes required)",
-  "requirements": []
+  "title": "Admin UI action to force-set a post date to now",
+  "requirements": [
+    {
+      "id": "REQ-19",
+      "summary": "Expose the backend force-set-date operation in the Admin UI so an admin can update a post’s createdAt to now and immediately see the updated date.",
+      "acceptanceCriteria": [
+        "A new React Query mutation hook is added in `frontend/src/hooks/useQueries.ts` that calls the new backend method and invalidates `['posts']` and the specific `['post', postId]` query keys on success.",
+        "`frontend/src/pages/AdminPage.tsx` provides an admin-only control on each post row/card to trigger the \"set date to now\" action for that post.",
+        "On success, the UI shows an English toast confirming the date was updated, and the date displayed in the admin list updates after query invalidation/refetch.",
+        "On failure, the UI shows an English error toast and does not silently succeed."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new React Query mutation hook (e.g., `useUpdatePostTimestamp`) that calls the backend capability `actor.updatePostTimestamp(postId)` and, on success, invalidates `['posts']` and `['post', postId.toString()]` so the admin list and any open post detail refetch."
+        },
+        {
+          "path": "frontend/src/pages/AdminPage.tsx",
+          "operation": "modify",
+          "description": "Wire the new mutation into the Admin Dashboard: add an admin-only per-post control (button/icon) in each post card row to trigger the \"Set date to now\" action for that post, show an English success toast on completion, and show an English error toast if the mutation fails; ensure the displayed date updates via the query invalidation/refetch and disable/show loading state while the mutation is pending."
+        }
+      ]
+    }
+  ]
 }

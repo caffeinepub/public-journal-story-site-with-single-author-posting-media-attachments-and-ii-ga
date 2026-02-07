@@ -1,28 +1,34 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T23:12:14.644Z",
+  "generatedAt": "2026-02-07T23:24:14.306Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
     "total": 2,
-    "implemented": 0,
+    "implemented": 1,
     "items": [
       {
-        "id": "REQ-16",
-        "summary": "Update backend post creation so `createdAt` is stored as the current Unix epoch timestamp in seconds (Nat64) instead of `0` when the owner creates a new post.",
+        "id": "REQ-18",
+        "summary": "Add an owner/admin-only backend operation that force-updates an existing post’s stored `createdAt` timestamp to the current time (today’s exact date), persisted in canister state.",
         "status": "unknown",
         "plannedFiles": [],
         "matchedFiles": []
       },
       {
-        "id": "REQ-17",
-        "summary": "Add a safe canister upgrade migration that permanently corrects invalid `createdAt` values in persisted posts, including ensuring the existing post titled \"Backroads Litter\" has a stored `createdAt` that renders as \"08 January 2026\" in the Australia/Sydney timezone.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
+        "id": "REQ-19",
+        "summary": "Expose the backend force-set-date operation in the Admin UI so the owner can re-run the fix for a chosen post (e.g., the existing “Backroads Litter” post) and immediately see the updated date.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/AdminPage.tsx"
+        ]
       }
     ]
   },
@@ -31,11 +37,14 @@
     "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AdminPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -149,6 +149,7 @@ export interface backendInterface {
     revokeAccess(user: Principal): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updatePost(postId: PostId, title: string, content: string, isLocked: boolean): Promise<void>;
+    updatePostTimestamp(postId: PostId): Promise<void>;
 }
 import type { ExternalBlob as _ExternalBlob, MediaAttachment as _MediaAttachment, MediaType as _MediaType, Post as _Post, PostId as _PostId, UserProfile as _UserProfile, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
@@ -472,6 +473,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.updatePost(arg0, arg1, arg2, arg3);
+            return result;
+        }
+    }
+    async updatePostTimestamp(arg0: PostId): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updatePostTimestamp(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updatePostTimestamp(arg0);
             return result;
         }
     }
