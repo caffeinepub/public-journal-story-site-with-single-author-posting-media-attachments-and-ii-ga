@@ -1,14 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 3,
+  "projectStateVersion": 9,
   "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
   "architectural_notes": [
     "Single-author system: only the site owner can create/manage posts; public users are readers only.",
-    "Access control model: posts have free vs locked visibility; locked content requires Internet Identity login to view."
+    "Access control model: posts have free vs locked visibility; locked content requires Internet Identity login to view.",
+    "Post timestamps/dates should be stored and rendered using Australia/Sydney timezone defaults (at least for initial MVP).",
+    "Existing posts may have incorrect stored timestamps (not just 1970); add/maintain a migration pathway to normalize legacy `createdAt` values to correct Australia/Sydney dates."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Minimalist wordmark logo in warm charcoal and cream palette (logo.dim_512x512.png)\n- Subtle paper-grain background texture, light warm tone (paper-texture.dim_1600x900.png)",
+  "known_issues": [
+    "Bug: Editing existing posts in admin does not persist changes (title and content changes do not save); Save closes editor as if successful but post remains unchanged.",
+    "Bug: Posts display date as 1970; need to default to today's date in Australia/Sydney for new posts and correct existing posts already showing 1970.",
+    "Bug: Existing post date is still incorrect for the only post currently on the site ('Backroads Litter') — it displays as 23 November 2022 while today's date is 08 January 2026 (Australia/Sydney)."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-add-an-owner-only-authoring-admin-workflow-so-only-the-site-owner-can-create-and-manage-posts",
@@ -65,6 +70,22 @@
         "REQ-8"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-frontend-date-formatting-to-display-post-dates-in-the-australia-sydney-timezone-consistently-anywhere-a-post-date-is-shown-home-feed-post-detail-and-admin-post-list-using-english-locale-formatting",
+      "title": "Update frontend date formatting to display post dates in the Australia/Sydney timezone consistently anywhere a post date is shown (home feed, post detail, and admin post list), using English locale formatting.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-frontend-shows-the-corrected-date-for-the-backroads-litter-post-on-both-the-home-feed-and-the-post-detail-page-after-the-backend-createdat-migration-is-applied-no-ui-regressions-to-existing-date-formatting-behavior",
+      "title": "Ensure the frontend shows the corrected date for the \"Backroads Litter\" post on both the home feed and the post detail page after the backend `createdAt` migration is applied (no UI regressions to existing date formatting behavior).",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -103,6 +124,52 @@
       "summary": "Implement backend data model and APIs for a single-author journal with posts that can be marked as free or locked, including create/update/delete and public read access.",
       "reqIds": [
         "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Fix the backend post data model so that post titles are persisted and returned by the public read APIs (getPost and getAllPosts), and ensure updates to an existing post persist both title and content.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add a safe upgrade path for existing canister state so that previously stored posts (which were missing title storage) can be upgraded without trapping, with reasonable default titles for existing posts.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Fix post date handling: default new posts to current date in Australia/Sydney timezone and migrate existing posts showing 1970 to a reasonable current/valid date",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Fix backend post creation timestamps so that newly created posts store a real current timestamp (seconds since Unix epoch) instead of deriving `createdAt` from `postId`.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add a safe upgrade/migration step that updates existing stored posts whose `createdAt` values are invalid (e.g., values that render as 1970) to a reasonable current timestamp, so older posts no longer display as 1970 after upgrade.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone (based on the current date the user provided). This change must update the persisted state so the fix is permanent (not just a frontend formatting change).",
+      "reqIds": [
+        "REQ-14"
       ],
       "status": "pending"
     }

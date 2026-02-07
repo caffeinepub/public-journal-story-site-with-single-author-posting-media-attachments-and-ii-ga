@@ -14,6 +14,7 @@ export function useGetAllPosts() {
       return actor.getAllPosts();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 0,
   });
 }
 
@@ -27,6 +28,7 @@ export function useGetPost(postId: string) {
       return actor.getPost(BigInt(postId));
     },
     enabled: !!actor && !isFetching && !!postId,
+    staleTime: 0,
   });
 }
 

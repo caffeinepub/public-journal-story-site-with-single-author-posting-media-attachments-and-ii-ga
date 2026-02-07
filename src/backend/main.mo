@@ -1,7 +1,6 @@
 import Map "mo:core/Map";
 import Set "mo:core/Set";
 import List "mo:core/List";
-import Text "mo:core/Text";
 import Nat64 "mo:core/Nat64";
 import Runtime "mo:core/Runtime";
 import Principal "mo:core/Principal";
@@ -39,6 +38,7 @@ actor {
   };
 
   type PostData = {
+    title : Text;
     content : Text;
     isLocked : Bool;
     media : [MediaAttachment];
@@ -84,10 +84,11 @@ actor {
     nextPostId += 1;
 
     let postData : PostData = {
+      title;
       content;
       isLocked;
       media = [];
-      createdAt = Nat64.fromNat(postId);
+      createdAt = 0;
     };
 
     posts.add(postId, postData);
@@ -105,6 +106,7 @@ actor {
     };
 
     let updated = {
+      title;
       content;
       isLocked;
       media = existing.media;
@@ -166,6 +168,7 @@ actor {
 
     let updatedMedia = existing.media.concat([attachment]);
     posts.add(postId, {
+      title = existing.title;
       content = existing.content;
       isLocked = existing.isLocked;
       media = updatedMedia;
@@ -189,7 +192,7 @@ actor {
 
         ?{
           id = postId;
-          title = "";
+          title = data.title;
           content = visibleContent;
           isLocked = data.isLocked;
           media = data.media;
@@ -213,7 +216,7 @@ actor {
 
       postsList.add({
         id = postId;
-        title = "";
+        title = data.title;
         content = visibleContent;
         isLocked = data.isLocked;
         media = data.media;

@@ -1,183 +1,75 @@
 {
   "kind": "build_request",
-  "title": "Public journal/story site with single-author posting, media attachments, and II-gated locked posts",
-  "priority": "normal",
+  "title": "Correct stored createdAt for the “Backroads Litter” post so the displayed date matches Australia/Sydney (08 Jan 2026)",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Implement backend data model and APIs for a single-author journal with posts that can be marked as free or locked, including create/update/delete and public read access.",
+      "id": "REQ-14",
+      "text": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone (based on the current date the user provided). This change must update the persisted state so the fix is permanent (not just a frontend formatting change).",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "recent-messages-6",
+          "recent-messages-8",
+          "recent-messages-10",
+          "recent-messages-12"
         ],
         "quotes": [
-          "i want to document my daily activities and stories... add features like photos, videos ...",
-          "Public.",
-          "only me.",
-          "some posts be free and others locked."
-        ]
-      },
-      "acceptanceCriteria": [
-        "Posts are persisted in the canister and survive reloads/upgrades (use stable storage patterns appropriate for Motoko).",
-        "Each post includes at minimum: id, title, body text, createdAt timestamp, updatedAt timestamp, isLocked boolean, and a list of media attachments (may be empty).",
-        "Backend exposes query for listing posts (with pagination parameters) and query for fetching a single post by id.",
-        "Backend exposes update calls for owner to create, edit, delete posts.",
-        "For non-owner callers, backend read APIs do not return locked post content unless access rules in REQ-3 are satisfied."
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Add an owner-only authoring/admin workflow so only the site owner can create and manage posts.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "1. only me."
-        ]
-      },
-      "acceptanceCriteria": [
-        "The app has an Admin area/page that is visible/enabled only for the configured owner principal.",
-        "Owner can create a new post, edit an existing post, and delete a post from the UI.",
-        "If a non-owner attempts to call create/update/delete backend methods directly, the backend rejects the call with a clear error.",
-        "Owner identity is determined by caller principal and a configured owner principal constant (document where to set it)."
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Gate locked posts behind Internet Identity login: users can browse free content publicly, but must sign in with Internet Identity to view locked post content.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "log in with Internet Identity before viewing pay‑walled content"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Unauthenticated visitors can view the post list and open free posts fully.",
-        "Unauthenticated visitors attempting to open a locked post see a locked state UI and a prompt to sign in with Internet Identity.",
-        "After signing in, the app re-attempts to load the locked post content.",
-        "Backend enforces the rule by checking caller identity; frontend gating alone is not considered sufficient."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Implement a minimal paywall entitlement mechanism for locked posts (without integrating payments): after Internet Identity login, only principals that are explicitly allowed can view locked content; the owner can grant/revoke access.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "pay‑walled content",
-          "some posts be free and others locked"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend stores an allowlist (set of principals) who may view locked posts; owner can add/remove principals via admin calls.",
-        "Locked post read returns full content for the owner and allowlisted principals; otherwise returns a not-authorized result.",
-        "Frontend provides an owner-only UI to add/remove principals to the allowlist (copy/paste principal text).",
-        "Non-allowlisted logged-in users see a clear ‘not subscribed/authorized’ state for locked posts (in English)."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Support media attachments on posts in the initial version: allow adding images and videos to a post, and display them in post detail views.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "both [text entries]",
-          "photos, videos"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A post can include multiple media attachments, each typed as either image or video.",
-        "The create/edit post UI supports adding media entries.",
-        "Post detail view renders image attachments and video attachments appropriately (responsive layout).",
-        "Locked post media is gated the same as locked post text content (no media URLs/blobs returned to unauthorized callers)."
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Create public-facing pages for browsing and reading posts: a home/feed page, a post detail page, and basic navigation.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "document my daily activities and stories"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Home/feed page lists posts newest-first with title, date, and a locked indicator for locked posts.",
-        "Post detail page shows title, date, body, and media (subject to access rules).",
-        "Navigation includes links to Home and (when owner) Admin; and a login/logout control for Internet Identity.",
-        "UI is usable on mobile and desktop (responsive layout)."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Add a coherent visual theme and typography system for the journal app and apply it consistently across pages.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
+          "today is 08 Jan 2026",
+          "my post reads 23 November 2022",
+          "Its called 'Backroads Litter'",
           "yes please"
         ]
       },
       "acceptanceCriteria": [
-        "App uses a distinct, cohesive theme (not blue/purple by default) with consistent spacing, typography, and component styling.",
-        "Theme is applied consistently across Home, Post Detail, and Admin pages.",
-        "User-facing text is in English."
+        "After deploying the updated canister (including any needed migration), fetching posts via `getAllPosts` and `getPost` returns the \"Backroads Litter\" post with a `createdAt` value that formats to \"8 January 2026\" using the existing frontend Sydney date formatter.",
+        "The fix is applied only to the intended existing post (\"Backroads Litter\") and does not modify other posts’ `createdAt` values (if present).",
+        "The migration/upgrade completes without trapping and preserves all other stored post fields (title, content, isLocked, media)."
       ]
     },
     {
-      "id": "REQ-8",
-      "text": "Add basic content safety/quality constraints and empty/loading states throughout the UI.",
+      "id": "REQ-15",
+      "text": "Ensure the frontend shows the corrected date for the \"Backroads Litter\" post on both the home feed and the post detail page after the backend `createdAt` migration is applied (no UI regressions to existing date formatting behavior).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "recent-messages-8",
+          "recent-messages-10"
         ],
         "quotes": [
-          "lets do it"
+          "my post reads 23 November 2022",
+          "Its called 'Backroads Litter'"
         ]
       },
       "acceptanceCriteria": [
-        "Forms validate required fields (e.g., title/body) and show inline English error messages.",
-        "All data-fetching views show loading states and error states.",
-        "When there are no posts, Home shows an empty-state message and (for owner) a call-to-action to create the first post."
+        "On the Home page, the date shown for \"Backroads Litter\" renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
+        "On the Post Detail page for \"Backroads Litter\", the date shown renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
+        "No changes are made that alter date formatting for other posts beyond reflecting the corrected stored timestamp."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single Motoko actor with all logic in the main actor file (backend/main.mo).",
-    "Do not edit files in frontend immutablePaths (compose existing hooks/components instead of modifying them).",
-    "Do not add third-party authentication providers; only Internet Identity is allowed.",
-    "Do not integrate external databases or non-Motoko backend services."
+    "Backend must remain a single-actor Motoko canister; keep all logic in `backend/main.mo` and use `backend/migration.mo` only when upgrading existing state per the conditional migration policy.",
+    "Do not edit files under `frontend/src/components/ui` or any paths listed as immutable in SYSTEM_CONTEXT.",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Implementing real payment processing (e.g., Stripe) in this iteration.",
-    "Allowing other users to create posts or comments.",
-    "Health progress tracking features (defer to later).",
-    "Real-time updates or chat-like features.",
-    "Full-featured video hosting/streaming inside the canister beyond reasonable size limits."
+    "Building a general UI to edit or override post dates.",
+    "Changing the existing Australia/Sydney frontend date formatting implementation (the issue is the stored timestamp, not formatting).",
+    "Integrating any external time/date services or databases."
   ],
   "imageRequirements": {
-    "required": [
-      "Minimalist wordmark logo in warm charcoal and cream palette (logo.dim_512x512.png)",
-      "Subtle paper-grain background texture, light warm tone (paper-texture.dim_1600x900.png)"
-    ],
+    "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

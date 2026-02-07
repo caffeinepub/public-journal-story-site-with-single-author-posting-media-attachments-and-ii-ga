@@ -1,89 +1,44 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T22:14:38.500Z",
-  "summary": "Diff adds a new Motoko backend actor and a React/TanStack Router frontend with Home, Post Detail, and Admin pages, Internet Identity login controls, allowlist management UI, media upload/gallery components, and a warm charcoal/cream theme with paper texture background. However, several backend data/authorization and API-shape requirements from the BuildRequest are not evidenced in the diff summary (notably stable persistence, timestamps/fields, pagination, and owner-constant logic).",
+  "generatedAt": "2026-02-07T23:03:41.567Z",
+  "summary": "REQ-14 (backend migration to permanently correct the stored createdAt for the existing “Backroads Litter” post) is not evidenced in the provided diff summary. Frontend changes shown are not specifically tied to displaying the corrected migrated timestamp and include unrequested date/timezone formatting-related adjustments and React Query cache behavior changes.",
   "missing_requirements": [
     {
-      "id": "REQ-1",
-      "requirement": "Posts are persisted in the canister and survive reloads/upgrades using stable storage patterns.",
-      "reason": "The backend diff shows in-memory vars/maps/sets (`var nextPostId`, `let posts = Map.empty...`, `let entitledUsers = Set.empty...`) but no stable variables or `preupgrade`/`postupgrade` logic is visible in the provided `backend/main.mo` excerpt.",
+      "id": "REQ-14",
+      "requirement": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone, and persist the fix across upgrades without affecting other posts.",
+      "reason": "The diff summary shows modifications to `backend/main.mo` but does not show any canister upgrade hooks (e.g., preupgrade/postupgrade) or any use of `backend/migration.mo`, nor any logic targeting the specific existing post by title to update only its stored `createdAt` in persisted state.",
       "evidence": [
-        "backend/main.mo (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-1",
-      "requirement": "Each post includes at minimum: id, title, body text, createdAt timestamp, updatedAt timestamp, isLocked boolean, and media attachments.",
-      "reason": "The shown `Post` type lacks `updatedAt`, and the internal `PostData` shown does not store `title` at all. Also `createdAt` is set to `Nat64.fromNat(postId)` (not a timestamp).",
-      "evidence": [
-        "backend/main.mo (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-1",
-      "requirement": "Backend exposes a query for listing posts with pagination parameters and a query for fetching a single post by id.",
-      "reason": "Frontend calls `actor.getAllPosts()` with no pagination args, suggesting the listing API is not paginated. No evidence of pagination parameters is shown in backend excerpt.",
-      "evidence": [
-        "frontend/src/hooks/useQueries.ts (truncated)",
-        "backend/main.mo (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "requirement": "Owner identity is determined by caller principal and a configured owner principal constant (document where to set it).",
-      "reason": "Frontend initializes admin access via a secret URL parameter (`caffeineAdminToken`) and calls `_initializeAccessControlWithSecret(adminToken)`; backend uses an `AccessControl` permission check, but no configured owner principal constant/documentation is evidenced in the shown backend excerpt.",
-      "evidence": [
-        "frontend/src/hooks/useActor.ts",
-        "backend/main.mo (truncated)"
+        "backend/main.mo (truncated) — shows type/state definitions and CRUD methods; no upgrade/migration logic visible",
+        "File diff summary — no mention of backend/migration.mo modifications"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "User profile management APIs (get/save user profiles) requiring a #user permission.",
-      "reason": "BuildRequest does not mention user profiles; scope is single-author posts with II-gated locked content and allowlist entitlements.",
+      "description": "Frontend pages updated to use Australia/Sydney timezone for date display (home, post detail, admin) and a shared date utility that formats timestamps in Australia/Sydney.",
+      "reason": "BuildRequest explicitly lists changing the existing Australia/Sydney frontend date formatting implementation as a non-goal; the diff summary claims these pages and the date utility were changed/now use Sydney timezone.",
       "evidence": [
-        "backend/main.mo (truncated)"
+        "frontend-file-summaries.txt — HomePage.tsx: \"now uses Sydney timezone for date display.\"",
+        "frontend-file-summaries.txt — PostDetailPage.tsx: \"now uses Sydney timezone for date display.\"",
+        "frontend-file-summaries.txt — AdminPage.tsx: \"now uses Sydney timezone for date display in post list.\"",
+        "frontend-file-summaries.txt — frontend/src/utils/date.ts: \"... in the Australia/Sydney timezone using English locale.\""
       ]
     },
     {
-      "description": "Secret-token-based admin initialization via URL parameter (`caffeineAdminToken`) and `_initializeAccessControlWithSecret`.",
-      "reason": "BuildRequest specifies owner is determined by caller principal and a configured owner principal constant; it does not request an admin secret token mechanism passed via URL params.",
+      "description": "React Query post queries configured with `staleTime: 0` to force fresh refetching after backend upgrades.",
+      "reason": "REQ-15 asks only that the frontend shows the corrected date after the backend migration is applied, with no UI regressions; it does not request cache policy changes.",
       "evidence": [
-        "frontend/src/hooks/useActor.ts",
-        "backend/main.mo (truncated)"
+        "frontend/src/hooks/useQueries.ts (truncated) — `useGetAllPosts` and `useGetPost` include `staleTime: 0`",
+        "frontend-file-summaries.txt — useQueries.ts: \"now configured with staleTime: 0 for post queries to ensure fresh data is fetched after backend upgrades.\""
       ]
     }
   ],
-  "confidence": 0.72,
+  "confidence": 0.62,
   "changed_files": [
-    "all_files_summary.json",
     "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/index.css",
-    "frontend/index.html",
-    "frontend/src/App.tsx",
-    "frontend/src/components/AdminRouteGuard.tsx",
-    "frontend/src/components/AllowlistManager.tsx",
-    "frontend/src/components/AppLayout.tsx",
-    "frontend/src/components/AsyncState.tsx",
-    "frontend/src/components/AuthButton.tsx",
-    "frontend/src/components/MediaGallery.tsx",
-    "frontend/src/components/MediaUploader.tsx",
-    "frontend/src/components/TopNav.tsx",
-    "frontend/src/hooks/useActor.ts",
-    "frontend/src/hooks/useAdminStatus.ts",
-    "frontend/src/hooks/useInternetIdentity.ts",
     "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/main.tsx",
-    "frontend/src/pages/AdminPage.tsx",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/PostDetailPage.tsx",
-    "frontend/src/utils/principal.ts",
-    "frontend/src/utils/urlParams.ts",
-    "frontend/tailwind.config.js",
     "project_state.json"
   ]
 }

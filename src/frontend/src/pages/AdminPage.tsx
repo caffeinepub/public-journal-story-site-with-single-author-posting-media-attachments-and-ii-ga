@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import AllowlistManager from '../components/AllowlistManager';
 import MediaUploader from '../components/MediaUploader';
 import AsyncState from '../components/AsyncState';
+import { formatPostDateSydney } from '../utils/date';
 import type { Post } from '../backend';
 
 export default function AdminPage() {
@@ -230,11 +231,8 @@ export default function AdminPage() {
                                 <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
                               )}
                             </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">
-                              {post.content}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-2">
-                              {new Date(Number(post.createdAt) * 1000).toLocaleDateString()}
+                            <p className="text-sm text-muted-foreground">
+                              {formatPostDateSydney(post.createdAt)}
                             </p>
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
@@ -245,9 +243,13 @@ export default function AdminPage() {
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Dialog open={editingPost?.id === post.id} onOpenChange={(open) => !open && closeEditDialog()}>
+                            <Dialog>
                               <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" onClick={() => openEditDialog(post)}>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => openEditDialog(post)}
+                                >
                                   <Edit className="h-4 w-4" />
                                 </Button>
                               </DialogTrigger>
@@ -262,6 +264,7 @@ export default function AdminPage() {
                                       id="edit-title"
                                       value={formData.title}
                                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                      placeholder="Enter post title"
                                       className={formErrors.title ? 'border-destructive' : ''}
                                     />
                                     {formErrors.title && (
@@ -274,6 +277,7 @@ export default function AdminPage() {
                                       id="edit-content"
                                       value={formData.content}
                                       onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                      placeholder="Write your story..."
                                       rows={12}
                                       className={formErrors.content ? 'border-destructive' : ''}
                                     />
@@ -292,7 +296,9 @@ export default function AdminPage() {
                                       onCheckedChange={(checked) => setFormData({ ...formData, isLocked: checked })}
                                     />
                                   </div>
-                                  <MediaUploader postId={post.id} />
+                                  {editingPost && (
+                                    <MediaUploader postId={editingPost.id} />
+                                  )}
                                 </div>
                                 <DialogFooter>
                                   <Button variant="outline" onClick={closeEditDialog}>
@@ -314,7 +320,7 @@ export default function AdminPage() {
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Delete Post</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete this post? This action cannot be undone.
+                                    Are you sure you want to delete "{post.title}"? This action cannot be undone.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

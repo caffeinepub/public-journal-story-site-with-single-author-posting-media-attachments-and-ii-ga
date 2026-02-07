@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Lock, Calendar, ArrowLeft, LogIn } from 'lucide-react';
 import AsyncState from '../components/AsyncState';
 import MediaGallery from '../components/MediaGallery';
+import { formatPostDateSydney } from '../utils/date';
 
 export default function PostDetailPage() {
   const { postId } = useParams({ from: '/post/$postId' });
@@ -83,11 +84,7 @@ export default function PostDetailPage() {
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="h-4 w-4" />
-              <time>{new Date(Number(post.createdAt) * 1000).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}</time>
+              <time>{formatPostDateSydney(post.createdAt)}</time>
             </div>
           </CardHeader>
 

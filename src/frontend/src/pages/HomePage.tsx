@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Lock, Calendar, Plus } from 'lucide-react';
 import AsyncState from '../components/AsyncState';
+import { formatPostDateSydney } from '../utils/date';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -88,11 +89,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4" />
-                <time>{new Date(Number(post.createdAt) * 1000).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}</time>
+                <time>{formatPostDateSydney(post.createdAt)}</time>
               </div>
             </CardHeader>
             <CardContent>
