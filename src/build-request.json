@@ -1,75 +1,59 @@
 {
   "kind": "build_request",
-  "title": "Correct stored createdAt for the “Backroads Litter” post so the displayed date matches Australia/Sydney (08 Jan 2026)",
+  "title": "Fix backend post createdAt timestamps and migrate existing “Backroads Litter” date",
   "priority": "high",
   "requirements": [
     {
-      "id": "REQ-14",
-      "text": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone (based on the current date the user provided). This change must update the persisted state so the fix is permanent (not just a frontend formatting change).",
+      "id": "REQ-16",
+      "text": "Update backend post creation so `createdAt` is stored as the current Unix epoch timestamp in seconds (Nat64) instead of `0` when the owner creates a new post.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "recent-messages-6",
-          "recent-messages-8",
-          "recent-messages-10",
-          "recent-messages-12"
+          "msg-8"
         ],
         "quotes": [
-          "today is 08 Jan 2026",
-          "my post reads 23 November 2022",
-          "Its called 'Backroads Litter'",
+          "the date is still not todays date. how would you fix it",
+          "run it now please"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Creating a new post as the admin stores `createdAt` as a non-zero value representing the current time in epoch seconds.",
+        "A newly created post appears in the UI with today’s date when formatted in Australia/Sydney timezone (using the existing frontend formatter)."
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Add a safe canister upgrade migration that permanently corrects invalid `createdAt` values in persisted posts, including ensuring the existing post titled \"Backroads Litter\" has a stored `createdAt` that renders as \"08 January 2026\" in the Australia/Sydney timezone.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-8"
+        ],
+        "quotes": [
+          "the date is still not todays date. how would you fix it",
           "yes please"
         ]
       },
       "acceptanceCriteria": [
-        "After deploying the updated canister (including any needed migration), fetching posts via `getAllPosts` and `getPost` returns the \"Backroads Litter\" post with a `createdAt` value that formats to \"8 January 2026\" using the existing frontend Sydney date formatter.",
-        "The fix is applied only to the intended existing post (\"Backroads Litter\") and does not modify other posts’ `createdAt` values (if present).",
-        "The migration/upgrade completes without trapping and preserves all other stored post fields (title, content, isLocked, media)."
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Ensure the frontend shows the corrected date for the \"Backroads Litter\" post on both the home feed and the post detail page after the backend `createdAt` migration is applied (no UI regressions to existing date formatting behavior).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "recent-messages-8",
-          "recent-messages-10"
-        ],
-        "quotes": [
-          "my post reads 23 November 2022",
-          "Its called 'Backroads Litter'"
-        ]
-      },
-      "acceptanceCriteria": [
-        "On the Home page, the date shown for \"Backroads Litter\" renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
-        "On the Post Detail page for \"Backroads Litter\", the date shown renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
-        "No changes are made that alter date formatting for other posts beyond reflecting the corrected stored timestamp."
+        "The project includes an upgrade-safe migration path (per the platform’s conditional migration policy) so existing canister state can be upgraded without trapping.",
+        "After upgrade, any post(s) with invalid `createdAt` values (e.g., `0` / epoch-like) are updated to a reasonable non-zero epoch-seconds timestamp.",
+        "After upgrade, the post titled \"Backroads Litter\" renders as \"08 January 2026\" in Australia/Sydney timezone on both the home feed and post detail page (using existing frontend date formatting)."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single-actor Motoko canister; keep all logic in `backend/main.mo` and use `backend/migration.mo` only when upgrading existing state per the conditional migration policy.",
-    "Do not edit files under `frontend/src/components/ui` or any paths listed as immutable in SYSTEM_CONTEXT.",
-    "Use English for any user-facing text."
+    "Backend must remain a single Motoko actor in `backend/main.mo`; do not introduce additional backend services.",
+    "Use a conditional upgrade migration approach; only add/modify migration code when upgrading existing state is required.",
+    "Keep all user-facing text in English.",
+    "Do not modify any frontend files under `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, or any files in `frontend/src/components/ui`."
   ],
   "nonGoals": [
-    "Building a general UI to edit or override post dates.",
-    "Changing the existing Australia/Sydney frontend date formatting implementation (the issue is the stored timestamp, not formatting).",
-    "Integrating any external time/date services or databases."
+    "Integrate payments or any external entitlement/payment provider.",
+    "Change frontend date formatting rules (timezone/locale) beyond what already exists.",
+    "Add new UI features unrelated to correcting/normalizing stored `createdAt` timestamps."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

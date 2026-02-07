@@ -1,44 +1,39 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T23:03:41.567Z",
-  "summary": "REQ-14 (backend migration to permanently correct the stored createdAt for the existing “Backroads Litter” post) is not evidenced in the provided diff summary. Frontend changes shown are not specifically tied to displaying the corrected migrated timestamp and include unrequested date/timezone formatting-related adjustments and React Query cache behavior changes.",
+  "generatedAt": "2026-02-07T23:12:14.642Z",
+  "summary": "REQ-16 appears implemented by setting createdAt during post creation using the current time (via toUnixSeconds(Time.now())). REQ-17 is only partially addressed: a migration is added and wired in, but it unconditionally overwrites createdAt for all posts to a hardcoded timestamp rather than conditionally correcting only invalid timestamps and specifically ensuring the \"Backroads Litter\" post renders as 08 January 2026 in Australia/Sydney.",
   "missing_requirements": [
     {
-      "id": "REQ-14",
-      "requirement": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone, and persist the fix across upgrades without affecting other posts.",
-      "reason": "The diff summary shows modifications to `backend/main.mo` but does not show any canister upgrade hooks (e.g., preupgrade/postupgrade) or any use of `backend/migration.mo`, nor any logic targeting the specific existing post by title to update only its stored `createdAt` in persisted state.",
+      "id": "REQ-17",
+      "requirement": "Use a conditional, upgrade-safe migration to permanently correct invalid persisted createdAt values (e.g., 0/epoch-like) without overwriting valid timestamps.",
+      "reason": "The migration shown overwrites createdAt for every post, not just invalid ones, and does not demonstrate any conditional logic to detect and fix only invalid timestamps.",
       "evidence": [
-        "backend/main.mo (truncated) — shows type/state definitions and CRUD methods; no upgrade/migration logic visible",
-        "File diff summary — no mention of backend/migration.mo modifications"
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "requirement": "Ensure the existing post titled \"Backroads Litter\" specifically gets a createdAt that renders as \"08 January 2026\" in Australia/Sydney timezone, while leaving other posts' valid createdAt values intact.",
+      "reason": "The migration does not check the title \"Backroads Litter\" (or any identifier) and instead sets the same hardcoded createdAt for all posts; this does not implement targeted correction for that specific post.",
+      "evidence": [
+        "backend/migration.mo"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Frontend pages updated to use Australia/Sydney timezone for date display (home, post detail, admin) and a shared date utility that formats timestamps in Australia/Sydney.",
-      "reason": "BuildRequest explicitly lists changing the existing Australia/Sydney frontend date formatting implementation as a non-goal; the diff summary claims these pages and the date utility were changed/now use Sydney timezone.",
+      "description": "Migration hardcodes createdAt = 1767878400 for all existing posts, effectively changing every post date to 08 Jan 2026.",
+      "reason": "The BuildRequest only asks to correct invalid createdAt values and to ensure the specific \"Backroads Litter\" post renders as 08 January 2026; it does not request overwriting timestamps for all posts.",
       "evidence": [
-        "frontend-file-summaries.txt — HomePage.tsx: \"now uses Sydney timezone for date display.\"",
-        "frontend-file-summaries.txt — PostDetailPage.tsx: \"now uses Sydney timezone for date display.\"",
-        "frontend-file-summaries.txt — AdminPage.tsx: \"now uses Sydney timezone for date display in post list.\"",
-        "frontend-file-summaries.txt — frontend/src/utils/date.ts: \"... in the Australia/Sydney timezone using English locale.\""
-      ]
-    },
-    {
-      "description": "React Query post queries configured with `staleTime: 0` to force fresh refetching after backend upgrades.",
-      "reason": "REQ-15 asks only that the frontend shows the corrected date after the backend migration is applied, with no UI regressions; it does not request cache policy changes.",
-      "evidence": [
-        "frontend/src/hooks/useQueries.ts (truncated) — `useGetAllPosts` and `useGetPost` include `staleTime: 0`",
-        "frontend-file-summaries.txt — useQueries.ts: \"now configured with staleTime: 0 for post queries to ensure fresh data is fetched after backend upgrades.\""
+        "backend/migration.mo"
       ]
     }
   ],
-  "confidence": 0.62,
+  "confidence": 0.74,
   "changed_files": [
     "backend/main.mo",
-    "frontend-file-summaries.txt",
-    "frontend/src/hooks/useQueries.ts",
+    "backend/migration.mo",
     "project_state.json"
   ]
 }

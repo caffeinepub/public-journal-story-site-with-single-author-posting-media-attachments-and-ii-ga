@@ -1,23 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Frontend: reflect corrected createdAt for “Backroads Litter” after backend migration",
-  "requirements": [
-    {
-      "id": "REQ-15",
-      "summary": "Ensure Home feed and Post Detail pages display the corrected Australia/Sydney date for the “Backroads Litter” post once the backend stored createdAt value is migrated, without changing existing date formatting behavior.",
-      "acceptanceCriteria": [
-        "On the Home page, the date shown for \"Backroads Litter\" renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
-        "On the Post Detail page for \"Backroads Litter\", the date shown renders as \"8 January 2026\" (Australia/Sydney) using the existing date formatting utility.",
-        "No changes are made that alter date formatting for other posts beyond reflecting the corrected stored timestamp."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Adjust post-fetching React Query behavior (for getAllPosts/getPost) to reliably refetch after a backend deploy/upgrade so the UI picks up the corrected persisted createdAt timestamp without altering the existing Australia/Sydney date formatter."
-        }
-      ]
-    }
-  ]
+  "title": "Backend createdAt timestamp fix & migration (no frontend changes required)",
+  "requirements": []
 }

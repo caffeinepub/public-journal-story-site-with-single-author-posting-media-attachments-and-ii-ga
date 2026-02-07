@@ -1,6 +1,7 @@
 import Map "mo:core/Map";
 import Set "mo:core/Set";
 import List "mo:core/List";
+import Nat "mo:core/Nat";
 import Nat64 "mo:core/Nat64";
 import Runtime "mo:core/Runtime";
 import Principal "mo:core/Principal";
@@ -8,7 +9,10 @@ import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
+import Migration "migration";
+import Time "mo:core/Time";
 
+(with migration = Migration.run)
 actor {
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
@@ -88,7 +92,7 @@ actor {
       content;
       isLocked;
       media = [];
-      createdAt = 0;
+      createdAt = toUnixSeconds(Time.now());
     };
 
     posts.add(postId, postData);
@@ -244,5 +248,10 @@ actor {
         };
       };
     };
+  };
+
+  func toUnixSeconds(time : Time.Time) : Nat64 {
+    let seconds = ((time) / 1_000_000_000).toNat();
+    Nat64.fromNat(seconds);
   };
 };

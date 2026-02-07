@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 9,
+  "projectStateVersion": 11,
   "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
   "architectural_notes": [
     "Single-author system: only the site owner can create/manage posts; public users are readers only.",
@@ -11,7 +11,8 @@
   "known_issues": [
     "Bug: Editing existing posts in admin does not persist changes (title and content changes do not save); Save closes editor as if successful but post remains unchanged.",
     "Bug: Posts display date as 1970; need to default to today's date in Australia/Sydney for new posts and correct existing posts already showing 1970.",
-    "Bug: Existing post date is still incorrect for the only post currently on the site ('Backroads Litter') — it displays as 23 November 2022 while today's date is 08 January 2026 (Australia/Sydney)."
+    "Bug: Existing post date is still incorrect for the only post currently on the site ('Backroads Litter') — it displays as 23 November 2022 while today's date is 08 January 2026 (Australia/Sydney).",
+    "Root cause hypothesis: backend is storing `createdAt = 0` on post creation, leading to incorrect rendered dates (e.g., “Backroads Litter” not showing today’s Australia/Sydney date)."
   ],
   "isFixRequest": true,
   "existing_features": [
@@ -170,6 +171,22 @@
       "summary": "Update canister upgrade/migration logic so the existing post titled \"Backroads Litter\" has its stored `createdAt` corrected to a timestamp that displays as 08 January 2026 in the Australia/Sydney timezone (based on the current date the user provided). This change must update the persisted state so the fix is permanent (not just a frontend formatting change).",
       "reqIds": [
         "REQ-14"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Update backend post creation so `createdAt` is stored as the current Unix epoch timestamp in seconds (Nat64) instead of `0` when the owner creates a new post.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Add a safe canister upgrade migration that permanently corrects invalid `createdAt` values in persisted posts, including ensuring the existing post titled \"Backroads Litter\" has a stored `createdAt` that renders as \"08 January 2026\" in the Australia/Sydney timezone.",
+      "reqIds": [
+        "REQ-17"
       ],
       "status": "pending"
     }
