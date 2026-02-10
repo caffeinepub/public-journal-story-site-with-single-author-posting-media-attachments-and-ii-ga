@@ -1,20 +1,21 @@
 {
   "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining routes for home, post detail, and admin pages with AppLayout wrapper.",
   "frontend/src/pages/HomePage.tsx": "Home page with prominent site header (title and tagline), improved post card hierarchy and spacing, and consistent max-width container for better readability across devices.",
-  "frontend/src/pages/PostDetailPage.tsx": "Post detail page with enhanced reading experience through improved typography, comfortable line-height, better section spacing, and refined locked/unauthorized states with clearer visual hierarchy.",
-  "frontend/src/pages/AdminPage.tsx": "Admin dashboard for creating, editing, and deleting posts with form validation, media upload, allowlist management, and calendar icon button to update post timestamps; now includes proper Badge component import.",
+  "frontend/src/pages/PostDetailPage.tsx": "Post detail page with enhanced reading experience, improved typography, comfortable line-height, better section spacing, and refined locked/unauthorized states with proper refetch capability.",
+  "frontend/src/pages/AdminPage.tsx": "Admin dashboard for creating, editing, and deleting posts with form validation, the new AdminPostMediaManager for media management, allowlist management, and calendar icon button to update post timestamps.",
   "frontend/src/components/AppLayout.tsx": "Layout wrapper with updated footer containing fully English text without emojis, improved link accessibility with proper focus states, and consistent backdrop blur treatment.",
   "frontend/src/components/TopNav.tsx": "Top navigation with mobile-accessible dropdown menu for Stories and Admin links, improved focus states, and clear active/hover affordances for better navigation clarity.",
   "frontend/src/components/AuthButton.tsx": "Internet Identity login/logout button with loading states and query cache clearing on logout.",
   "frontend/src/components/AdminRouteGuard.tsx": "Route guard component that shows access denied screen for non-admin users attempting to access admin pages.",
   "frontend/src/components/AllowlistManager.tsx": "Admin component for granting/revoking access to locked content and checking user access status by principal ID.",
-  "frontend/src/components/MediaUploader.tsx": "File upload component for adding images and videos to posts with progress tracking using ExternalBlob.",
-  "frontend/src/components/MediaGallery.tsx": "Media gallery component with improved section heading, better grid spacing, and refined card treatment for seamless integration with post content.",
+  "frontend/src/components/MediaUploader.tsx": "File upload component with persistent success and error states that remain visible until the user starts a new upload, preventing concurrent uploads only during active uploading, and clear completion feedback.",
+  "frontend/src/components/MediaGallery.tsx": "Media gallery component with inline click-to-expand/collapse functionality for images (videos remain unchanged), using state to track expanded images and spanning full grid width when expanded.",
   "frontend/src/components/AsyncState.tsx": "Error state component with improved spacing, typography, and visual hierarchy matching the refreshed design system.",
-  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including posts CRUD, access control, media upload, user profiles, and the new useUpdatePostTimestamp mutation that sets a post's date to the current time.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including posts CRUD, access control, media upload/removal, user profiles, and timestamp updates with proper query invalidation.",
   "frontend/src/hooks/useAdminStatus.ts": "Hook to check if the current user has admin privileges, used for conditional UI rendering.",
   "frontend/src/utils/principal.ts": "Utility function to validate and parse Internet Computer principal IDs with user-friendly error messages.",
   "frontend/src/index.css": "Global styles with improved typography scale, reading-optimized text utilities, enhanced focus states, and refined OKLCH color system for warm journal aesthetic in both light and dark modes.",
   "frontend/tailwind.config.js": "Tailwind configuration with improved container padding/responsive behavior, enhanced typography scale with line-height definitions, additional spacing utilities, and consistent design tokens.",
-  "frontend/src/utils/date.ts": "Shared date formatting utility that converts post creation timestamps (epoch seconds) to human-readable dates in the Australia/Sydney timezone using English locale."
+  "frontend/src/utils/date.ts": "Shared date formatting utility that converts post creation timestamps (epoch seconds) to human-readable dates in the Australia/Sydney timezone using English locale.",
+  "frontend/src/components/AdminPostMediaManager.tsx": "Admin media management component with inline click-to-expand/collapse for image previews, proper event propagation handling to preserve Remove button functionality, and grid layout adjustment for expanded images."
 }

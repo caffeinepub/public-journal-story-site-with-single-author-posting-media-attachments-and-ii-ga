@@ -1,40 +1,16 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T23:38:50.613Z",
-  "summary": "Most of the requested design/styling refresh appears implemented across Home, Post Detail, navigation, and footer (typography/spacing updates, new Home header/tagline, mobile-accessible nav, refined MediaGallery spacing, and an English-only footer). However, the diff also introduces a new Admin capability/mutation to update a post timestamp, which goes beyond styling-only scope and may imply backend/query behavior changes.",
+  "generatedAt": "2026-02-10T22:29:08.306Z",
+  "summary": "Diff implements inline click-to-expand for images in both the public MediaGallery and the admin post editor attachment list, and updates the admin MediaUploader to show a persistent, explicit upload-complete state with progress/disabled behavior during uploads. No backend changes are shown.",
   "missing_requirements": [],
-  "hallucinated_features": [
-    {
-      "description": "Added an Admin action/mutation to update a post's timestamp (“update post timestamps” / calendar icon button) which is a behavior/product change rather than design-only styling.",
-      "reason": "BuildRequest explicitly constrains this change to design/styling only and disallows new product features or backend/data behavior changes; updating timestamps is not requested in REQ-20–REQ-24.",
-      "evidence": [
-        "frontend/src/pages/AdminPage.tsx (truncated) — imports useUpdatePostTimestamp and includes handleUpdateTimestamp() with success message 'Post date updated to today'",
-        "frontend-file-summaries.txt — \"...calendar icon button to update post timestamps\"",
-        "frontend-file-summaries.txt — \"...useUpdatePostTimestamp mutation that sets a post's date to the current time.\""
-      ]
-    },
-    {
-      "description": "Introduced theme switching infrastructure via next-themes ThemeProvider (including dark mode variables in CSS), which was not requested as part of the design refresh requirements.",
-      "reason": "REQ-20–REQ-24 ask for typography/spacing/navigation/footer refinements; adding a theme provider and dark mode system is an additional capability not explicitly requested.",
-      "evidence": [
-        "frontend/src/components/AppLayout.tsx — imports ThemeProvider from 'next-themes' and wraps the app with it",
-        "frontend/src/index.css — defines a full set of '.dark' CSS variables"
-      ]
-    }
-  ],
+  "hallucinated_features": [],
   "confidence": 0.74,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/AppLayout.tsx",
-    "frontend/src/components/AsyncState.tsx",
+    "frontend/src/components/AdminPostMediaManager.tsx",
     "frontend/src/components/MediaGallery.tsx",
-    "frontend/src/components/TopNav.tsx",
-    "frontend/src/index.css",
-    "frontend/src/pages/AdminPage.tsx",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/PostDetailPage.tsx",
-    "frontend/tailwind.config.js",
+    "frontend/src/components/MediaUploader.tsx",
     "project_state.json"
   ]
 }

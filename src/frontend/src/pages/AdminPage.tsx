@@ -14,7 +14,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Plus, Edit, Trash2, Lock, Unlock, Eye, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import AllowlistManager from '../components/AllowlistManager';
-import MediaUploader from '../components/MediaUploader';
+import AdminPostMediaManager from '../components/AdminPostMediaManager';
 import AsyncState from '../components/AsyncState';
 import { formatPostDateSydney } from '../utils/date';
 import type { Post } from '../backend';
@@ -339,7 +339,7 @@ export default function AdminPage() {
                                   onCheckedChange={(checked) => setFormData({ ...formData, isLocked: checked })}
                                 />
                               </div>
-                              <MediaUploader postId={post.id} />
+                              <AdminPostMediaManager post={post} />
                             </div>
                             <DialogFooter>
                               <Button
@@ -360,15 +360,19 @@ export default function AdminPage() {
                         </Dialog>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" title="Delete post">
-                              <Trash2 className="h-4 w-4 text-destructive" />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              title="Delete post"
+                            >
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete Post</AlertDialogTitle>
+                              <AlertDialogTitle>Delete Post?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to delete "{post.title}"? This action cannot be undone.
+                                This will permanently delete "{post.title}". This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
@@ -386,10 +390,14 @@ export default function AdminPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground line-clamp-2 leading-relaxed">
-                      {post.content.substring(0, 150)}
-                      {post.content.length > 150 && '...'}
+                    <p className="text-muted-foreground line-clamp-3">
+                      {post.content}
                     </p>
+                    {post.media && post.media.length > 0 && (
+                      <p className="text-sm text-muted-foreground mt-3">
+                        {post.media.length} attachment{post.media.length !== 1 ? 's' : ''}
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -399,7 +407,7 @@ export default function AdminPage() {
 
         <section className="space-y-4">
           <h2 className="text-2xl font-serif font-semibold">Access Control</h2>
-          <Card className="border-border/50">
+          <Card>
             <CardContent className="pt-6">
               <AllowlistManager />
             </CardContent>

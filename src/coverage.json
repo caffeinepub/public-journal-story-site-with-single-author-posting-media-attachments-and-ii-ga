@@ -1,86 +1,46 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-07T23:38:50.616Z",
+  "generatedAt": "2026-02-10T22:29:08.310Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 5,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-20",
-        "summary": "Update the overall visual styling to look cleaner and more professional by refining typography scale, whitespace, and layout rhythm across the Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line-length for body text).",
+        "id": "REQ-27",
+        "summary": "Enable simple inline click-to-expand behavior for images rendered in the public media gallery (attachments) so that clicking an image toggles between its normal card view and an expanded, larger inline view on the same page (no overlay/lightbox).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/pages/PostDetailPage.tsx",
-          "frontend/src/pages/AdminPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/pages/PostDetailPage.tsx",
-          "frontend/src/pages/AdminPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-21",
-        "summary": "Improve the Home feed page presentation by adding a simple header section (site title and short tagline/description in English) above the list, and make post cards easier to scan with clearer spacing between title, date, and excerpt.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/AsyncState.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/components/AsyncState.tsx"
-        ]
-      },
-      {
-        "id": "REQ-22",
-        "summary": "Make navigation clearer on both desktop and mobile by ensuring there is an obvious way to return to the Home feed from any page (including on small screens), and by improving the visibility/affordance of primary navigation actions in the top navigation.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/TopNav.tsx",
-          "frontend/src/pages/PostDetailPage.tsx",
-          "frontend/src/index.css"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/TopNav.tsx",
-          "frontend/src/pages/PostDetailPage.tsx",
-          "frontend/src/index.css"
-        ]
-      },
-      {
-        "id": "REQ-23",
-        "summary": "Refine the Post detail reading experience by improving content typography and spacing, and by improving media presentation spacing (e.g., more breathing room around the media section and consistent card padding).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/PostDetailPage.tsx",
           "frontend/src/components/MediaGallery.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/PostDetailPage.tsx",
           "frontend/src/components/MediaGallery.tsx"
         ]
       },
       {
-        "id": "REQ-24",
-        "summary": "Update the footer to be simple, professional, and fully in English (remove decorative symbols/emojis), while keeping it lightweight and consistent with the site theme.",
+        "id": "REQ-28",
+        "summary": "Enable simple inline click-to-expand behavior for images shown in the admin post editor media attachment list so that clicking an image preview toggles between the current preview size and an expanded inline view (no overlay/lightbox).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/AppLayout.tsx",
-          "frontend/src/index.css"
+          "frontend/src/components/AdminPostMediaManager.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/AppLayout.tsx",
-          "frontend/src/index.css"
+          "frontend/src/components/AdminPostMediaManager.tsx"
+        ]
+      },
+      {
+        "id": "REQ-29",
+        "summary": "Ensure the admin media uploader provides a clearly visible, explicit upload-complete indication after a successful upload, and that the completion state is easy to notice and does not disappear too quickly for the owner to confidently avoid duplicate uploads.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/MediaUploader.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/MediaUploader.tsx"
         ]
       }
     ]
@@ -90,15 +50,9 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/AppLayout.tsx",
-    "frontend/src/components/AsyncState.tsx",
+    "frontend/src/components/AdminPostMediaManager.tsx",
     "frontend/src/components/MediaGallery.tsx",
-    "frontend/src/components/TopNav.tsx",
-    "frontend/src/index.css",
-    "frontend/src/pages/AdminPage.tsx",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/PostDetailPage.tsx",
-    "frontend/tailwind.config.js",
+    "frontend/src/components/MediaUploader.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

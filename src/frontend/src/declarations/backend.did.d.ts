@@ -71,6 +71,7 @@ export interface _SERVICE {
   'grantAccess' : ActorMethod<[Principal], undefined>,
   'hasAccess' : ActorMethod<[Principal], boolean>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'removeMediaFromPost' : ActorMethod<[PostId, bigint], undefined>,
   'revokeAccess' : ActorMethod<[Principal], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'updatePost' : ActorMethod<[PostId, string, string, boolean], undefined>,

@@ -199,6 +199,40 @@ actor {
     });
   };
 
+  // --- New: Remove Media Attachment (Admin Only) ---
+
+  public shared ({ caller }) func removeMediaFromPost(postId : PostId, mediaIndex : Nat) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only the owner can remove media");
+    };
+
+    let existing = switch (posts.get(postId)) {
+      case (null) { Runtime.trap("Post not found") };
+      case (?data) { data };
+    };
+
+    if (mediaIndex >= existing.media.size()) {
+      Runtime.trap("Media index out of bounds");
+    };
+
+    var updatedMedia : [MediaAttachment] = [];
+    var i = 0;
+    for (media in existing.media.values()) {
+      if (i != mediaIndex) {
+        updatedMedia := updatedMedia.concat([media]);
+      };
+      i += 1;
+    };
+
+    posts.add(postId, {
+      title = existing.title;
+      content = existing.content;
+      isLocked = existing.isLocked;
+      media = updatedMedia;
+      createdAt = existing.createdAt;
+    });
+  };
+
   // --- Public Post APIs ---
 
   public query ({ caller }) func getPost(postId : PostId) : async ?Post {

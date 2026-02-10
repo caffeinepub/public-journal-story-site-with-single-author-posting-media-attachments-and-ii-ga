@@ -146,6 +146,7 @@ export interface backendInterface {
     grantAccess(user: Principal): Promise<void>;
     hasAccess(user: Principal): Promise<boolean>;
     isCallerAdmin(): Promise<boolean>;
+    removeMediaFromPost(postId: PostId, mediaIndex: bigint): Promise<void>;
     revokeAccess(user: Principal): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updatePost(postId: PostId, title: string, content: string, isLocked: boolean): Promise<void>;
@@ -431,6 +432,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.isCallerAdmin();
+            return result;
+        }
+    }
+    async removeMediaFromPost(arg0: PostId, arg1: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.removeMediaFromPost(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.removeMediaFromPost(arg0, arg1);
             return result;
         }
     }

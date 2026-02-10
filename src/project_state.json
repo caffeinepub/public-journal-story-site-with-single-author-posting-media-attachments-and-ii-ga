@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 15,
+  "projectStateVersion": 19,
   "summary": "Build a public personal journaling/story site where only the owner can create daily posts (text + photo/video), with some posts free and others paywalled; users must log in with Internet Identity to view locked posts, with a view toward future monetization and added health-progress tracking.",
   "architectural_notes": [
     "Single-author system: only the site owner can create/manage posts; public users are readers only.",
@@ -13,7 +13,9 @@
     "Bug: Editing existing posts in admin does not persist changes (title and content changes do not save); Save closes editor as if successful but post remains unchanged.",
     "Bug: Posts display date as 1970; need to default to today's date in Australia/Sydney for new posts and correct existing posts already showing 1970.",
     "Bug: Existing post date is still incorrect for the only post currently on the site ('Backroads Litter') — it displays as 23 November 2022 while today's date is 08 January 2026 (Australia/Sydney).",
-    "Root cause hypothesis: backend is storing `createdAt = 0` on post creation, leading to incorrect rendered dates (e.g., “Backroads Litter” not showing today’s Australia/Sydney date)."
+    "Root cause hypothesis: backend is storing `createdAt = 0` on post creation, leading to incorrect rendered dates (e.g., “Backroads Litter” not showing today’s Australia/Sydney date).",
+    "Bug/UX: Admin media upload flow does not clearly show upload completion, leading to accidental duplicate uploads.",
+    "Bug/UI: Media delete/remove button in the admin editor is not visible (or not discoverable), preventing deletion of duplicated uploads."
   ],
   "isFixRequest": false,
   "existing_features": [
@@ -136,6 +138,46 @@
         "REQ-24"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-admin-post-editor-media-upload-flow-to-clearly-indicate-upload-progress-and-an-explicit-upload-complete-state-so-the-owner-can-tell-when-an-upload-has-finished-and-avoid-accidental-duplicate-uploads",
+      "title": "Update the Admin post editor media upload flow to clearly indicate upload progress and an explicit “Upload complete” state (so the owner can tell when an upload has finished and avoid accidental duplicate uploads).",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-owner-admin-only-capability-to-remove-a-specific-media-attachment-from-a-post-including-a-backend-api-and-a-visible-usable-delete-remove-control-in-the-admin-post-editor-ui-for-each-attachment",
+      "title": "Add an owner/admin-only capability to remove a specific media attachment from a post, including a backend API and a visible, usable delete/remove control in the Admin post editor UI for each attachment.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enable-simple-inline-click-to-expand-behavior-for-images-rendered-in-the-public-media-gallery-attachments-so-that-clicking-an-image-toggles-between-its-normal-card-view-and-an-expanded-larger-inline-view-on-the-same-page-no-overlay-lightbox",
+      "title": "Enable simple inline click-to-expand behavior for images rendered in the public media gallery (attachments) so that clicking an image toggles between its normal card view and an expanded, larger inline view on the same page (no overlay/lightbox).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enable-simple-inline-click-to-expand-behavior-for-images-shown-in-the-admin-post-editor-media-attachment-list-so-that-clicking-an-image-preview-toggles-between-the-current-preview-size-and-an-expanded-inline-view-no-overlay-lightbox",
+      "title": "Enable simple inline click-to-expand behavior for images shown in the admin post editor media attachment list so that clicking an image preview toggles between the current preview size and an expanded inline view (no overlay/lightbox).",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-admin-media-uploader-provides-a-clearly-visible-explicit-upload-complete-indication-after-a-successful-upload-and-that-the-completion-state-is-easy-to-notice-and-does-not-disappear-too-quickly-for-the-owner-to-confidently-avoid-duplicate-uploads",
+      "title": "Ensure the admin media uploader provides a clearly visible, explicit upload-complete indication after a successful upload, and that the completion state is easy to notice and does not disappear too quickly for the owner to confidently avoid duplicate uploads.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -256,6 +298,24 @@
     {
       "id": "AR-17",
       "summary": "Update the site design/styling to look cleaner and more professional (typography, spacing, margins, clearer navigation like a Back to Home button, and a simple footer)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Improve admin media uploads to clearly indicate upload progress/completion to prevent duplicate uploads",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Fix/restore visibility and usability of the media delete/remove control in the admin post editor so duplicate uploads can be removed",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Enable inline click-to-expand photo viewing everywhere photos are shown (home feed, post detail, and admin preview)",
       "reqIds": [],
       "status": "pending"
     }

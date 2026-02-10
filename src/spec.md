@@ -1,13 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Refresh the journal site’s frontend design to feel cleaner and more professional through improved typography, spacing, navigation clarity, post reading layout, and an updated English-only footer.
+**Goal:** Let users click images to expand them inline (no lightbox) in both the public gallery and the admin editor, and make admin upload completion feedback clearly visible and persistent.
 
 **Planned changes:**
-- Refine typography scale, whitespace, and layout rhythm across Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line length).
-- Update the Home feed presentation with a simple header section (site title + short English tagline) and clearer, more scannable post card spacing/hierarchy (title/date/excerpt).
-- Improve navigation clarity on desktop and mobile so users can always return to the Home feed and easily access primary actions, with clear hover/focus/active states.
-- Refine the Post detail reading experience with improved content typography/spacing and better integrated media section spacing/padding.
-- Update the site-wide footer to be simple and professional, fully in English, and free of decorative symbols/emojis while keeping existing links accessible.
+- Add inline click-to-expand toggle for images in the Post Detail page attachments section (keep videos unchanged).
+- Add inline click-to-expand toggle for images in the Admin post editor media attachment list (keep videos unchanged; keep Remove media flow working in both states).
+- Update the admin media uploader to show an explicit, clearly visible “upload complete” success state that remains until the next upload (or explicit clear), while preventing starting another upload during an active upload and keeping progress visible.
+- Ensure uploader error states remain clearly visible and are not overwritten by success unless a subsequent upload succeeds.
 
-**User-visible outcome:** Pages look more readable and consistent, the Home feed has a clearer header and easier-to-scan cards, navigation is more obvious (including on mobile), post reading feels more comfortable, and the footer is clean English-only while keeping existing states and links working.
+**User-visible outcome:** In both public and admin views, clicking an image expands/collapses it inline on the page, and admins get an unmissable, persistent confirmation when an upload completes (with clear progress during upload and clear errors on failure).

@@ -2,14 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-overall-visual-styling-to-look-cleaner-and-more-professional-by-refining-typography-scale-whitespace-and-layout-rhythm-across-the-home-feed-post-detail-and-admin-pages-consistent-container-widths-vertical-spacing-and-readable-line-length-for-body-text",
-      "featureTitle": "Update the overall visual styling to look cleaner and more professional by refining typography scale, whitespace, and layout rhythm across the Home feed, Post detail, and Admin pages (consistent container widths, vertical spacing, and readable line-length for body text).",
+      "featureId": "feature-enable-simple-inline-click-to-expand-behavior-for-images-rendered-in-the-public-media-gallery-attachments-so-that-clicking-an-image-toggles-between-its-normal-card-view-and-an-expanded-larger-inline-view-on-the-same-page-no-overlay-lightbox",
+      "featureTitle": "Enable simple inline click-to-expand behavior for images rendered in the public media gallery (attachments) so that clicking an image toggles between its normal card view and an expanded, larger inline view on the same page (no overlay/lightbox).",
       "files": [
-        "frontend/src/index.css",
-        "frontend/src/pages/AdminPage.tsx",
-        "frontend/src/pages/HomePage.tsx",
-        "frontend/src/pages/PostDetailPage.tsx",
-        "frontend/tailwind.config.js"
+        "frontend/src/components/MediaGallery.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -21,16 +17,15 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-20"
+        "REQ-27"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-improve-the-home-feed-page-presentation-by-adding-a-simple-header-section-site-title-and-short-tagline-description-in-english-above-the-list-and-make-post-cards-easier-to-scan-with-clearer-spacing-between-title-date-and-excerpt",
-      "featureTitle": "Improve the Home feed page presentation by adding a simple header section (site title and short tagline/description in English) above the list, and make post cards easier to scan with clearer spacing between title, date, and excerpt.",
+      "featureId": "feature-enable-simple-inline-click-to-expand-behavior-for-images-shown-in-the-admin-post-editor-media-attachment-list-so-that-clicking-an-image-preview-toggles-between-the-current-preview-size-and-an-expanded-inline-view-no-overlay-lightbox",
+      "featureTitle": "Enable simple inline click-to-expand behavior for images shown in the admin post editor media attachment list so that clicking an image preview toggles between the current preview size and an expanded inline view (no overlay/lightbox).",
       "files": [
-        "frontend/src/components/AsyncState.tsx",
-        "frontend/src/pages/HomePage.tsx"
+        "frontend/src/components/AdminPostMediaManager.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -42,17 +37,15 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-21"
+        "REQ-28"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-make-navigation-clearer-on-both-desktop-and-mobile-by-ensuring-there-is-an-obvious-way-to-return-to-the-home-feed-from-any-page-including-on-small-screens-and-by-improving-the-visibility-affordance-of-primary-navigation-actions-in-the-top-navigation",
-      "featureTitle": "Make navigation clearer on both desktop and mobile by ensuring there is an obvious way to return to the Home feed from any page (including on small screens), and by improving the visibility/affordance of primary navigation actions in the top navigation.",
+      "featureId": "feature-ensure-the-admin-media-uploader-provides-a-clearly-visible-explicit-upload-complete-indication-after-a-successful-upload-and-that-the-completion-state-is-easy-to-notice-and-does-not-disappear-too-quickly-for-the-owner-to-confidently-avoid-duplicate-uploads",
+      "featureTitle": "Ensure the admin media uploader provides a clearly visible, explicit upload-complete indication after a successful upload, and that the completion state is easy to notice and does not disappear too quickly for the owner to confidently avoid duplicate uploads.",
       "files": [
-        "frontend/src/components/TopNav.tsx",
-        "frontend/src/index.css",
-        "frontend/src/pages/PostDetailPage.tsx"
+        "frontend/src/components/MediaUploader.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -64,49 +57,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-22"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-refine-the-post-detail-reading-experience-by-improving-content-typography-and-spacing-and-by-improving-media-presentation-spacing-e-g-more-breathing-room-around-the-media-section-and-consistent-card-padding",
-      "featureTitle": "Refine the Post detail reading experience by improving content typography and spacing, and by improving media presentation spacing (e.g., more breathing room around the media section and consistent card padding).",
-      "files": [
-        "frontend/src/components/MediaGallery.tsx",
-        "frontend/src/pages/PostDetailPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-23"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-footer-to-be-simple-professional-and-fully-in-english-remove-decorative-symbols-emojis-while-keeping-it-lightweight-and-consistent-with-the-site-theme",
-      "featureTitle": "Update the footer to be simple, professional, and fully in English (remove decorative symbols/emojis), while keeping it lightweight and consistent with the site theme.",
-      "files": [
-        "frontend/src/components/AppLayout.tsx",
-        "frontend/src/index.css"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-24"
+        "REQ-29"
       ],
       "confidence": "high"
     }

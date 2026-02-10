@@ -165,6 +165,22 @@ export function useAddMediaToPost() {
   });
 }
 
+export function useRemoveMediaFromPost() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { postId: PostId; mediaIndex: bigint }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.removeMediaFromPost(data.postId, data.mediaIndex);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['post', variables.postId.toString()] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+}
+
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
   const { identity } = useInternetIdentity();

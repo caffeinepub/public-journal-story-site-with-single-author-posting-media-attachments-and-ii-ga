@@ -1,130 +1,55 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Journal design refresh: typography, spacing, navigation, and footer",
+  "title": "Inline expand/collapse images in galleries and persistent upload-complete feedback",
   "requirements": [
     {
-      "id": "REQ-20",
-      "summary": "Refresh global typography/spacing rhythm and apply consistent container widths across Home, Post detail, and Admin pages.",
+      "id": "REQ-27",
+      "summary": "Add inline click-to-expand/collapse for images in the public Post Detail attachments gallery (no overlay).",
       "acceptanceCriteria": [
-        "HomePage, PostDetailPage, and AdminPage use consistent max-width/container spacing and do not feel cramped on mobile or overly wide on desktop.",
-        "Post titles and body text are noticeably easier to read (clear hierarchy between title/date/body).",
-        "No new features or backend changes are introduced; changes are limited to styling/layout."
+        "In the Post Detail page attachments section, clicking an image toggles it between collapsed and expanded inline states on the page.",
+        "The expanded state is visually larger than the collapsed state and remains within the page flow (no modal/lightbox, no background dim).",
+        "Videos are not affected by the click-to-expand behavior and continue to use the existing video player UI.",
+        "Image expansion works on both desktop and mobile layouts."
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Refine global typography defaults and layout rhythm (base font sizing/leading, heading scale, consistent vertical spacing utilities, and readable default text rendering). Keep the existing warm palette (avoid blue/purple dominance) and ensure focus styles are visible. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/tailwind.config.js",
-          "operation": "modify",
-          "description": "Adjust Tailwind container defaults to improve responsive padding and consistent max-width behavior across pages (comfortable mobile gutters and controlled desktop width). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Align page wrapper spacing to the shared container rhythm (consistent max-width, vertical padding, and card spacing) without changing data logic or states. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/PostDetailPage.tsx",
-          "operation": "modify",
-          "description": "Align PostDetail layout to the shared container rhythm and improve reading line-length/spacing for title/date/body while preserving all locked/unauthorized behaviors. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/AdminPage.tsx",
-          "operation": "modify",
-          "description": "Align Admin layout to the shared container rhythm (consistent width/padding and improved section spacing) while keeping admin capabilities unchanged. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-21",
-      "summary": "Add a simple Home feed header (site title + English tagline) and improve post card scanability with clearer hierarchy and spacing.",
-      "acceptanceCriteria": [
-        "HomePage shows a header area above the feed with a site title and a short descriptive tagline in English.",
-        "Feed cards have clear, consistent spacing and typographic hierarchy (title stands out, date is secondary, excerpt is readable).",
-        "The existing loading/empty/error states remain and still look visually consistent with the new styling."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Add a top-of-feed header section (English site title + short tagline) and refine post card layout/typography (title/date/excerpt spacing, consistent card padding). Ensure loading/empty/error states remain intact and visually consistent. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/AsyncState.tsx",
-          "operation": "modify",
-          "description": "Tune spacing/typography so Home error state matches the refreshed visual rhythm (no behavior changes). Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "summary": "Improve navigation clarity on desktop and mobile with an obvious Home/Stories route from any page and stronger nav affordance states.",
-      "acceptanceCriteria": [
-        "On mobile widths, users can access navigation to “Stories” (and “Admin” when applicable) without relying on hidden desktop-only UI.",
-        "PostDetailPage continues to provide a clear “Back to Stories” action that is visually consistent with the updated theme.",
-        "Navigation elements have clear active/hover/focus states."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/TopNav.tsx",
-          "operation": "modify",
-          "description": "Add a mobile-accessible primary navigation pattern (e.g., a visible menu trigger that exposes Stories and, when applicable, Admin) and refine active/hover/focus states for primary actions and logo/home affordance. Use shadcn-ui components (e.g., Button and an existing menu component) to keep styling consistent. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/PostDetailPage.tsx",
-          "operation": "modify",
-          "description": "Restyle the existing “Back to Stories” action to match the updated theme and ensure it remains prominent on small screens (no behavior change). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Ensure consistent, accessible focus-visible styles for interactive elements (nav buttons/links/menu trigger) and subtle hover states aligned with the warm palette. Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-23",
-      "summary": "Improve Post detail reading experience with better content typography/spacing and more integrated media section presentation.",
-      "acceptanceCriteria": [
-        "PostDetailPage body text uses a comfortable reading size/line-height and consistent spacing between sections.",
-        "MediaGallery section visually integrates with the post (consistent headings, spacing, and card treatment).",
-        "Locked/not-authorized states remain functionally identical and still look polished after restyling."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/PostDetailPage.tsx",
-          "operation": "modify",
-          "description": "Refine article typography and spacing (title/date/body hierarchy, comfortable line-height, consistent section separation). Keep locked/not-authorized screens functionally identical while polishing layout. Verify the component's usage instructions before implementing."
-        },
         {
           "path": "frontend/src/components/MediaGallery.tsx",
           "operation": "modify",
-          "description": "Improve MediaGallery spacing and visual integration with the post (consistent heading style, grid spacing, and card padding/treatment around media). Keep existing media rendering logic unchanged. Verify the component's usage instructions before implementing."
+          "description": "Implement per-image expanded/collapsed UI state for MediaType.image items so clicks toggle an inline larger view within the Card and grid flow (no overlay). Keep MediaType.video rendering unchanged with existing <video controls>. Use the blob-storage ExternalBlob getDirectURL() behavior as-is for image src rendering (Verify the component's usage instructions before implementing)."
         }
       ]
     },
     {
-      "id": "REQ-24",
-      "summary": "Update the site-wide footer to be clean, professional, and fully English with no emojis/symbols, consistent with the theme.",
+      "id": "REQ-28",
+      "summary": "Add inline click-to-expand/collapse for image previews in the admin post editor attachment list while preserving remove controls.",
       "acceptanceCriteria": [
-        "Footer text contains no emojis or non-English symbols.",
-        "Footer remains present site-wide via the existing layout and matches the updated styling.",
-        "Any existing external link(s) in the footer remain functional and accessible (appropriate contrast, hover states)."
+        "In the Admin post editor, clicking an image attachment preview toggles it between collapsed preview size and expanded inline size.",
+        "The existing Remove media flow (trash button + confirmation dialog) remains functional and usable in both collapsed and expanded states.",
+        "Videos in the admin attachment list are not changed to be expandable (only images toggle size)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/AppLayout.tsx",
+          "path": "frontend/src/components/AdminPostMediaManager.tsx",
           "operation": "modify",
-          "description": "Rewrite footer copy to be fully English with no emojis/special symbols, and refine footer spacing/typography to match the refreshed theme while preserving the existing external link and accessibility states. Verify the component's usage instructions before implementing."
-        },
+          "description": "Add expanded/collapsed state for image attachments only, toggled by clicking the image preview area. Ensure the Remove button + AlertDialog remain clickable and do not toggle expansion (e.g., prevent event propagation from control area). Keep video previews unchanged (non-expandable). Continue using blob-storage ExternalBlob getDirectURL() for preview rendering (Verify the component's usage instructions before implementing)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-29",
+      "summary": "Make the admin media uploader success state explicit and persistent until the user starts another upload (and keep progress/error handling clear).",
+      "acceptanceCriteria": [
+        "After a successful upload in the admin media uploader, a visible success state is shown with explicit English text indicating the upload is complete.",
+        "The success state remains visible until the user starts another upload (or otherwise explicitly clears it), rather than auto-clearing after a short timeout.",
+        "While an upload is in progress, the uploader prevents starting a second upload from the same control and continues showing progress feedback.",
+        "Error states remain clearly visible and do not get overwritten by a success state unless a subsequent upload succeeds."
+      ],
+      "file_operations": [
         {
-          "path": "frontend/src/index.css",
+          "path": "frontend/src/components/MediaUploader.tsx",
           "operation": "modify",
-          "description": "Ensure footer link styles (contrast, hover/focus) match the updated theme globally without introducing a dominant blue/purple palette. Verify the component's usage instructions before implementing."
+          "description": "Adjust uploader state machine to (1) keep success UI visible indefinitely until the user initiates a new upload or explicitly clears it, (2) keep error UI visible until cleared or replaced by a subsequent successful upload, and (3) keep the upload control disabled only during active uploading to prevent concurrent uploads while still showing progress. Maintain upload progress tracking via ExternalBlob.withUploadProgress and keep using existing toast notifications without relying on auto-reset timers (Verify the component's usage instructions before implementing)."
         }
       ]
     }

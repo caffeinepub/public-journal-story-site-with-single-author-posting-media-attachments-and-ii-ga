@@ -14,7 +14,7 @@ export default function PostDetailPage() {
   const { postId } = useParams({ from: '/post/$postId' });
   const navigate = useNavigate();
   const { identity, login, isLoggingIn } = useInternetIdentity();
-  const { data: post, isLoading, error } = useGetPost(postId);
+  const { data: post, isLoading, error, refetch } = useGetPost(postId);
   const { data: lockedContent, isLoading: lockedLoading, error: lockedError } = useGetLockedPostContent(
     postId,
     post?.isLocked || false
@@ -51,7 +51,7 @@ export default function PostDetailPage() {
         </Button>
         <AsyncState
           error={error as Error || new Error('Post not found')}
-          onRetry={() => window.location.reload()}
+          onRetry={() => refetch()}
         />
       </div>
     );

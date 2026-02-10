@@ -53,6 +53,7 @@ export interface backendInterface {
     grantAccess(user: Principal): Promise<void>;
     hasAccess(user: Principal): Promise<boolean>;
     isCallerAdmin(): Promise<boolean>;
+    removeMediaFromPost(postId: PostId, mediaIndex: bigint): Promise<void>;
     revokeAccess(user: Principal): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updatePost(postId: PostId, title: string, content: string, isLocked: boolean): Promise<void>;
